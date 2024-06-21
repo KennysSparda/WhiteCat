@@ -1,0 +1,65 @@
+# Node.js dependencies
+node_modules/
+
+# Next.js build output
+.next/
+
+# IDE/editor specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw??
+*.bak
+
+# Logs
+npm-debug.log*
+
+# Dependency directories
+/jspm_packages/
+/bower_components/
+
+# Typescript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# React build artifacts
+build/
+.DS_Store
+
+# Yarn
+.yarn/
+yarn-error.log
+
+# Parcel
+.cache/
+.parcel-cache/
+
+# Axios cache
+axios-cache/
+
+# Local development env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js telemetry
+next-telemetry.json
+
+# Next.js image cache
+__next_image_optimizer/
+
+# Next.js TypeScript cache
+.next.ts/
+.next.tsbuildinfo
+
+# Node.js TypeScript cache
+node_modules/.cache/
