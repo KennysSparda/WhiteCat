@@ -6,7 +6,7 @@ const Header = ({ onChangeComponent }) => {
   return (
     <header className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-white text-2xl font-bold">Sistema de Gestão</h1>
+        <h1 className="text-white text-2xl font-bold">FortLion</h1>
         <nav className="space-x-4">
           <span
             className="text-white hover:text-gray-300 cursor-pointer"

@@ -3,7 +3,11 @@
 import { useState } from 'react';
 import Header from '../componentes/Header';
 import Home from '../componentes/Home';
-import ProductsList from '../componentes/produtos/index';
+import ProductsList from '../componentes/produtos/ProductList';
+import FuncionariosList from '../componentes/funcionarios/funcionariosList'
+import EstoquesList from '../componentes/estoques/estoquesList'
+import MovimentacoesList from '../componentes/movimentacoes/MovimentacoesList'
+
 // Importar outros componentes conforme necessário
 
 const IndexPage = () => {
@@ -13,8 +17,15 @@ const IndexPage = () => {
     switch (currentComponent) {
       case 'home':
         return <Home />;
+      case 'funcionarios':
+        return <FuncionariosList />
       case 'produtos':
         return <ProductsList />;
+      case 'estoques':
+        return <EstoquesList />
+
+      case 'movimentacoes':
+          return <MovimentacoesList />;
       // Adicionar outros cases conforme necessário
       default:
         return <Home />;
