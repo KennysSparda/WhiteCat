@@ -10,9 +10,6 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
-  console.log('REACT_APP_BACKEND_URL:', URL);
-  console.log('PORT:', PORT);
-
   const fetchProducts = async () => {
     try {
       const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos`);
