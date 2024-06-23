@@ -4,9 +4,6 @@ import React, { useState, useEffect } from 'react';
 import FuncionariosForm from './funcionariosForm';
 
 const FuncionariosList = () => {
-  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
-  const PORT= process.env.NEXT_PUBLIC_PORT
-  
   const [funcionarios, setFuncionarios] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentFuncionario, setCurrentFuncionario] = useState(null);
@@ -14,7 +11,7 @@ const FuncionariosList = () => {
   useEffect(() => {
     const fetchFuncionarios = async () => {
       try {
-        const response = await fetch(`${URL}:${PORT}/funcionarios`);
+        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/funcionarios`);
         if (!response.ok) {
           throw new Error('Failed to fetch funcionarios');
         }
@@ -35,7 +32,7 @@ const FuncionariosList = () => {
 
   const deleteFuncionario = async (funcionarioId) => {
     try {
-      const response = await fetch(`${URL}:${PORT}/funcionarios/${funcionarioId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/funcionarios/${funcionarioId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -56,7 +53,7 @@ const FuncionariosList = () => {
     if (currentFuncionario) {
       // Atualizando funcionario existente
       try {
-        const response = await fetch(`${URL}:${PORT}/funcionarios/${currentFuncionario.FuncionarioID}`, {
+        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/funcionarios/${currentFuncionario.FuncionarioID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -74,7 +71,7 @@ const FuncionariosList = () => {
     } else {
       // Adicionando novo funcionario
       try {
-        const response = await fetch(`${URL}:${PORT}/funcionarios`, {
+        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/funcionarios`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -3,9 +3,6 @@
 import React, { useState, useEffect } from 'react';
 
 const FuncionariosForm = ({ funcionario, onSubmit, onClose }) => {
-  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
-  const PORT= process.env.NEXT_PUBLIC_PORT
-  
   const [nome, setNome] = useState('');
   const [cargo, setCargo] = useState('');
 

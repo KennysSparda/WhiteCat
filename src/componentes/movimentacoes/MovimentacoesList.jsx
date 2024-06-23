@@ -11,7 +11,7 @@ const ProductsList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros');
+        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/Registros');
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

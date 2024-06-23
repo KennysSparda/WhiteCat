@@ -4,9 +4,6 @@ import React, { useState, useEffect } from 'react';
 import EstoquesForm from './estoquesForm';
 
 const EstoquesList = () => {
-  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
-  const PORT= process.env.NEXT_PUBLIC_PORT
-  
   const [estoques, setEstoques] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentEstoque, setCurrentEstoque] = useState(null);
@@ -35,7 +32,7 @@ const EstoquesList = () => {
 
   const deleteEstoque = async (estoqueId) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}:${process.env.NEXT_PUBLIC_PORT}/estoques/${estoqueId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques/${estoqueId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

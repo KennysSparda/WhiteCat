@@ -3,10 +3,6 @@
 import React, { useState, useEffect } from 'react';
 
 const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
-  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
-  const PORT= process.env.NEXT_PUBLIC_PORT
-  console.log(URL)
-
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
 
@@ -32,7 +28,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
       let response;
       if (estoque) {
         // Atualizando estoque existente
-        response = await fetch(`${URL}:${PORT}/estoques/${estoque.EstoqueID}`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques/${estoque.EstoqueID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -41,7 +37,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
         });
       } else {
         // Adicionando novo estoque
-        response = await fetch(`${URL}:${PORT}/estoques`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
