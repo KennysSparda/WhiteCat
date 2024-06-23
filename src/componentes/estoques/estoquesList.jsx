@@ -14,7 +14,7 @@ const EstoquesList = () => {
 
   const fetchEstoques = async () => {
     try {
-      const response = await fetch(`${URL}:${PORT}/estoques`);
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques`);
       if (!response.ok) {
         throw new Error('Failed to fetch estoques');
       }
