@@ -12,7 +12,7 @@ const ProductList = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:2000/produtos');
+      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -35,7 +35,7 @@ const ProductList = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:2000/produtos/${productId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos/${productId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

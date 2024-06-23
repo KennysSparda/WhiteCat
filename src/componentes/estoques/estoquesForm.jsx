@@ -28,7 +28,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
       let response;
       if (estoque) {
         // Atualizando estoque existente
-        response = await fetch(`http://localhost:2000/estoques/${estoque.EstoqueID}`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:32143/estoques/${estoque.EstoqueID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
         });
       } else {
         // Adicionando novo estoque
-        response = await fetch('http://localhost:2000/estoques', {
+        response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:32143/estoques', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

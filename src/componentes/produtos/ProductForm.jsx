@@ -30,7 +30,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
       let response;
       if (product) {
         // Atualizando produto existente
-        response = await fetch(`http://localhost:2000/produtos/${product.ProdutoID}`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos/${product.ProdutoID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
         });
       } else {
         // Adicionando novo produto
-        response = await fetch('http://localhost:2000/produtos', {
+        response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

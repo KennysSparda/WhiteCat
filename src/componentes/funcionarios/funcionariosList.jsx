@@ -11,7 +11,7 @@ const FuncionariosList = () => {
   useEffect(() => {
     const fetchFuncionarios = async () => {
       try {
-        const response = await fetch('http://localhost:2000/funcionarios');
+        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/funcionarios');
         if (!response.ok) {
           throw new Error('Failed to fetch funcionarios');
         }
@@ -32,7 +32,7 @@ const FuncionariosList = () => {
 
   const deleteFuncionario = async (funcionarioId) => {
     try {
-      const response = await fetch(`http://localhost:2000/funcionarios/${funcionarioId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/funcionarios/${funcionarioId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -53,7 +53,7 @@ const FuncionariosList = () => {
     if (currentFuncionario) {
       // Atualizando funcionario existente
       try {
-        const response = await fetch(`http://localhost:2000/funcionarios/${currentFuncionario.FuncionarioID}`, {
+        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/funcionarios/${currentFuncionario.FuncionarioID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const FuncionariosList = () => {
     } else {
       // Adicionando novo funcionario
       try {
-        const response = await fetch('http://localhost:2000/funcionarios', {
+        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/funcionarios', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

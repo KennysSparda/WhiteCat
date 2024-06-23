@@ -14,7 +14,7 @@ const EstoquesList = () => {
 
   const fetchEstoques = async () => {
     try {
-      const response = await fetch('http://localhost:2000/estoques');
+      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/estoques');
       if (!response.ok) {
         throw new Error('Failed to fetch estoques');
       }
@@ -32,7 +32,7 @@ const EstoquesList = () => {
 
   const deleteEstoque = async (estoqueId) => {
     try {
-      const response = await fetch(`http://localhost:2000/estoques/${estoqueId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/estoques/${estoqueId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

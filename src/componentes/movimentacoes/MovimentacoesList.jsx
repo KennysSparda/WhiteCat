@@ -11,7 +11,7 @@ const ProductsList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/Registros');
+        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros');
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
@@ -32,7 +32,7 @@ const ProductsList = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/Registros/${productId}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros/${productId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -53,7 +53,7 @@ const ProductsList = () => {
     if (currentProduct) {
       // Atualizando Registro existente
       try {
-        const response = await fetch(`http://localhost:5000/Registros/${currentProduct.RegistroID}`, {
+        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros/${currentProduct.RegistroID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const ProductsList = () => {
     } else {
       // Adicionando novo Registro
       try {
-        const response = await fetch('http://localhost:5000/Registros', {
+        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
