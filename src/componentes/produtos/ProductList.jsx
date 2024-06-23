@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ProductForm from './ProductForm';
 
 const ProductList = () => {
+  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
+  const PORT= process.env.NEXT_PUBLIC_PORT
+
   const [products, setProducts] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -10,9 +13,12 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
+  console.log('REACT_APP_BACKEND_URL:', URL);
+  console.log('PORT:', PORT);
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos');
+      const response = await fetch(`${URL}:${PORT}/produtos`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -35,7 +41,7 @@ const ProductList = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos/${productId}`, {
+      const response = await fetch(`${URL}:${PORT}/produtos/${productId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

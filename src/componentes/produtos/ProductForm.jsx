@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const ProductForm = ({ product, fetchProducts, onClose }) => {
+  const URL = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL
+  const PORT= process.env.NEXT_PUBLIC_PORT
+
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -30,7 +33,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
       let response;
       if (product) {
         // Atualizando produto existente
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos/${product.ProdutoID}`, {
+        response = await fetch(`${URL}:${PORT}/produtos/${product.ProdutoID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -39,7 +42,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
         });
       } else {
         // Adicionando novo produto
-        response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/produtos', {
+        response = await fetch(`${URL}:${PORT}/produtos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

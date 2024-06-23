@@ -53,7 +53,7 @@ const ProductsList = () => {
     if (currentProduct) {
       // Atualizando Registro existente
       try {
-        const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros/${currentProduct.RegistroID}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}:${process.env.NEXT_PUBLIC_PORT}/Registros/${currentProduct.RegistroID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const ProductsList = () => {
     } else {
       // Adicionando novo Registro
       try {
-        const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com:19164/Registros', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}:${process.env.PORT}/Registros`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
