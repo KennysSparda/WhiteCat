@@ -25,7 +25,7 @@ const ProdutosEstoqueForm = ({ produtoEstoque, fetchProdutosEstoque, onClose }) 
 
   const fetchProdutosDisponiveis = async () => {
     try {
-      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/produtos');
+      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos');
       if (!response.ok) {
         throw new Error('Erro ao buscar produtos disponíveis');
       }
@@ -38,7 +38,7 @@ const ProdutosEstoqueForm = ({ produtoEstoque, fetchProdutosEstoque, onClose }) 
 
   const fetchEstoquesDisponiveis = async () => {
     try {
-      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/estoques');
+      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques');
       if (!response.ok) {
         throw new Error('Erro ao buscar estoques disponíveis');
       }
@@ -62,7 +62,7 @@ const ProdutosEstoqueForm = ({ produtoEstoque, fetchProdutosEstoque, onClose }) 
       let response;
       if (produtoEstoque) {
         // Atualizando entrada de produto em estoque existente
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/produtos-estoque/${produtoEstoque.ID}`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produto-estoque/${produtoEstoque.ProdutoEstoqueID}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const ProdutosEstoqueForm = ({ produtoEstoque, fetchProdutosEstoque, onClose }) 
         });
       } else {
         // Adicionando nova entrada de produto em estoque
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/produtos-estoque`, {
+        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produto-estoque`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

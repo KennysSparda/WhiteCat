@@ -1,4 +1,3 @@
-// ProdutosEstoqueList.jsx
 import React, { useState, useEffect } from 'react';
 import ProdutosEstoqueForm from './ProdutosEstoquesForm';
 
@@ -13,7 +12,7 @@ const ProdutosEstoqueList = () => {
 
   const fetchProdutosEstoque = async () => {
     try {
-      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/produtos-estoque');
+      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produto-estoque');
       if (!response.ok) {
         throw new Error('Erro ao buscar produtos em estoque');
       }
@@ -36,13 +35,13 @@ const ProdutosEstoqueList = () => {
 
   const deleteProdutoEstoque = async (id) => {
     try {
-      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/produtos-estoque/${id}`, {
+      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produto-estoque/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Erro ao deletar produto em estoque');
       }
-      setProdutosEstoque(produtosEstoque.filter(pe => pe.ID !== id));
+      setProdutosEstoque(produtosEstoque.filter(pe => pe.ProdutoEstoqueID !== id));
     } catch (error) {
       console.error('Erro ao deletar produto em estoque:', error);
     }
@@ -59,9 +58,9 @@ const ProdutosEstoqueList = () => {
       </button>
       <div className="grid grid-cols-3 gap-4">
         {produtosEstoque.map(pe => (
-          <div key={pe.ID} className="border p-4 rounded shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Produto ID: {pe.ProdutoID}</h3>
-            <p className="text-gray-700 mt-2">Estoque ID: {pe.EstoqueID}</p>
+          <div key={pe.ProdutoEstoqueID} className="border p-4 rounded shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Produto: {pe.NomeProduto}</h3>
+            <p className="text-gray-700 mt-2">Estoque: {pe.NomeEstoque}</p>
             <p className="text-gray-700 mt-2">Quantidade: {pe.Quantidade}</p>
             <div className="mt-4">
               <button
@@ -72,7 +71,7 @@ const ProdutosEstoqueList = () => {
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded"
-                onClick={() => deleteProdutoEstoque(pe.ID)}
+                onClick={() => deleteProdutoEstoque(pe.ProdutoEstoqueID)}
               >
                 Excluir
               </button>
