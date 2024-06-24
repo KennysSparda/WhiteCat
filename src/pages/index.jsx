@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Header from '../componentes/Header';
 import Home from '../componentes/Home';
-import ProductsList from '../componentes/produtos/ProductList';
+import ProdutosList from '../componentes/produtos/ProdutosList';
 import FuncionariosList from '../componentes/funcionarios/funcionariosList'
 import EstoquesList from '../componentes/estoques/estoquesList'
 import MovimentacoesList from '../componentes/movimentacoes/MovimentacoesList'
+import ProdutosEstoquesList from '../componentes/produtosestoques/ProdutosEstoquesList'
 
 // Importar outros componentes conforme necessário
 
@@ -20,10 +21,11 @@ const IndexPage = () => {
       case 'funcionarios':
         return <FuncionariosList />
       case 'produtos':
-        return <ProductsList />;
+        return <ProdutosList />;
       case 'estoques':
         return <EstoquesList />
-
+      case 'produtos-estoques':
+        return <ProdutosEstoquesList />;
       case 'movimentacoes':
           return <MovimentacoesList />;
       // Adicionar outros cases conforme necessário
