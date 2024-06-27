@@ -85,38 +85,40 @@ const MovimentacoesList = () => {
               <th className="border border-gray-300 px-4 py-2">Data</th>
               <th className="border border-gray-300 px-4 py-2">Quantidade</th>
               <th className="border border-gray-300 px-4 py-2">Tipo</th>
-              <th className="border border-gray-300 px-4 py-2">Produto ID</th>
-              <th className="border border-gray-300 px-4 py-2">Funcionário ID</th>
-              <th className="border border-gray-300 px-4 py-2">Estoque ID</th>
+              <th className="border border-gray-300 px-4 py-2">Produto</th>
+              <th className="border border-gray-300 px-4 py-2">Funcionário</th>
+              <th className="border border-gray-300 px-4 py-2">Estoque</th>
               <th className="border border-gray-300 px-4 py-2">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {movimentacoes.map(movimentacao => (
-              <tr key={movimentacao.id}>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.id}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.data}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.quantidade}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.fk_tipo_id ? 'Saída' : 'Entrada'}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomeproduto}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomefuncionario}</td>
-                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomeestoque}</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                    onClick={() => updateMovimentacao(movimentacao)}
-                  >
-                    Atualizar
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    onClick={() => deleteMovimentacao(movimentacao.ID)}
-                  >
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {movimentacoes.map(movimentacao => (
+            <tr key={movimentacao.id}>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.data}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
+              <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
+                {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
+              </td>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                  onClick={() => updateMovimentacao(movimentacao)}
+                >
+                  Atualizar
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  onClick={() => deleteMovimentacao(movimentacao.ID)}
+                >
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          ))}
           </tbody>
         </table>
       </div>
