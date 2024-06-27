@@ -50,7 +50,7 @@ const ProductForm = ({ product, onSubmit, onClose }) => {
     const movimentacaoData = {
       Data: data,
       Quantidade: parseInt(quantidade),
-      fk_Tipo_ID: tipo === 'entrada' ? 1 : 2, // Converte tipo para ID correspondente
+      fk_Tipo_ID: tipo === 'entrada' ? 1 : 2,
       fk_Produto_ID: parseInt(produtoID),
       fk_Funcionario_ID: parseInt(funcionarioID),
       fk_Estoque_ID: parseInt(estoqueID),

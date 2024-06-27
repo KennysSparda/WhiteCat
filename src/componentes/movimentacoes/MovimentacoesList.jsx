@@ -18,7 +18,6 @@ const MovimentacoesList = () => {
       }
       const data = await response.json();
       setMovimentacoes(data);
-      console.log(data)
     } catch (error) {
       console.error('Error fetching movimentacoes:', error);
     }
@@ -42,27 +41,34 @@ const MovimentacoesList = () => {
       if (!response.ok) {
         throw new Error('Failed to delete movimentacao');
       }
-      setMovimentacoes(movimentacoes.filter(movimentacao => movimentacao.ID !== movimentacaoId));
+      setMovimentacoes(movimentacoes.filter(mov => mov.id !== movimentacaoId));
     } catch (error) {
       console.error('Error deleting movimentacao:', error);
     }
   };
 
-  // Função para lidar com a submissão do formulário
   const handleSubmit = async (movimentacaoData) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes`, {
-        method: currentMovimentacao ? 'PUT' : 'POST',
+      const url = currentMovimentacao
+        ? `${process.env.NEXT_PUBLIC_URL}/movimentacoes/${currentMovimentacao.id}`
+        : `${process.env.NEXT_PUBLIC_URL}/movimentacoes`;
+
+      const method = currentMovimentacao ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(movimentacaoData),
       });
+
       if (!response.ok) {
         throw new Error('Failed to submit movimentacao');
       }
-      fetchMovimentacoes(); // Atualiza a lista após a submissão
-      setIsFormVisible(false); // Fecha o formulário após a submissão
+
+      fetchMovimentacoes();
+      setIsFormVisible(false);
     } catch (error) {
       console.error('Error submitting movimentacao:', error);
     }
@@ -92,40 +98,40 @@ const MovimentacoesList = () => {
             </tr>
           </thead>
           <tbody>
-          {movimentacoes.map(movimentacao => (
-            <tr key={movimentacao.id}>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.data}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
-              <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
-                {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
-              </td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
-              <td className="border border-gray-300 px-4 py-2 text-center">
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                  onClick={() => updateMovimentacao(movimentacao)}
-                >
-                  Atualizar
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                  onClick={() => deleteMovimentacao(movimentacao.ID)}
-                >
-                  Excluir
-                </button>
-              </td>
-            </tr>
-          ))}
+            {movimentacoes.map(movimentacao => (
+              <tr key={movimentacao.id}>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.data}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
+                <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
+                  {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
+                </td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
+                <td className="border border-gray-300 px-4 py-2 text-center">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    onClick={() => updateMovimentacao(movimentacao)}
+                  >
+                    Atualizar
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    onClick={() => deleteMovimentacao(movimentacao.id)}
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       {isFormVisible && (
         <MovimentacoesForm
           movimentacao={currentMovimentacao}
-          onSubmit={handleSubmit} // Passando a função handleSubmit para o form
+          onSubmit={handleSubmit}
           onClose={() => setIsFormVisible(false)}
         />
       )}
