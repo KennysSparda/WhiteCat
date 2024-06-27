@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>White Cat</title>
+        <title>Self Control</title>
         <link rel="shortcut icon" href=""></link>
       </Head>
       <Component {...pageProps} />

@@ -1,5 +1,3 @@
-// MovimentacoesList.jsx
-
 import React, { useState, useEffect } from 'react';
 import MovimentacoesForm from './MovimentacoesForm';
 
@@ -14,14 +12,15 @@ const MovimentacoesList = () => {
 
   const fetchMovimentacoes = async () => {
     try {
-      const response = await fetch('https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/movimentacoes');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes`);
       if (!response.ok) {
-        throw new Error('Erro ao buscar movimentações');
+        throw new Error('Failed to fetch movimentacoes');
       }
       const data = await response.json();
       setMovimentacoes(data);
+      console.log(data)
     } catch (error) {
-      console.error('Erro ao buscar movimentações:', error);
+      console.error('Error fetching movimentacoes:', error);
     }
   };
 
@@ -35,17 +34,37 @@ const MovimentacoesList = () => {
     setIsFormVisible(true);
   };
 
-  const deleteMovimentacao = async (id) => {
+  const deleteMovimentacao = async (movimentacaoId) => {
     try {
-      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/movimentacoes/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes/${movimentacaoId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Erro ao deletar movimentação');
+        throw new Error('Failed to delete movimentacao');
       }
-      setMovimentacoes(movimentacoes.filter(m => m.ID !== id));
+      setMovimentacoes(movimentacoes.filter(movimentacao => movimentacao.ID !== movimentacaoId));
     } catch (error) {
-      console.error('Erro ao deletar movimentação:', error);
+      console.error('Error deleting movimentacao:', error);
+    }
+  };
+
+  // Função para lidar com a submissão do formulário
+  const handleSubmit = async (movimentacaoData) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes`, {
+        method: currentMovimentacao ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(movimentacaoData),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to submit movimentacao');
+      }
+      fetchMovimentacoes(); // Atualiza a lista após a submissão
+      setIsFormVisible(false); // Fecha o formulário após a submissão
+    } catch (error) {
+      console.error('Error submitting movimentacao:', error);
     }
   };
 
@@ -58,36 +77,53 @@ const MovimentacoesList = () => {
       >
         Adicionar Movimentação
       </button>
-      <div className="grid grid-cols-3 gap-4">
-        {movimentacoes.map(m => (
-          <div key={m.ID} className="border p-4 rounded shadow-md">
-            <h3 className="text-lg font-semibold mb-2">ID: {m.ID}</h3>
-            <p className="text-gray-700 mt-2">Data: {m.Data}</p>
-            <p className="text-gray-700 mt-2">Tipo: {m.Tipo}</p>
-            <p className="text-gray-700 mt-2">Produto ID: {m.ProdutoID}</p>
-            <p className="text-gray-700 mt-2">Quantidade: {m.Quantidade}</p>
-            <p className="text-gray-700 mt-2">Funcionário ID: {m.FuncionarioID}</p>
-            <div className="mt-4">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                onClick={() => updateMovimentacao(m)}
-              >
-                Atualizar
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded"
-                onClick={() => deleteMovimentacao(m.ID)}
-              >
-                Excluir
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-gray-300">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="border border-gray-300 px-4 py-2">ID</th>
+              <th className="border border-gray-300 px-4 py-2">Data</th>
+              <th className="border border-gray-300 px-4 py-2">Quantidade</th>
+              <th className="border border-gray-300 px-4 py-2">Tipo</th>
+              <th className="border border-gray-300 px-4 py-2">Produto ID</th>
+              <th className="border border-gray-300 px-4 py-2">Funcionário ID</th>
+              <th className="border border-gray-300 px-4 py-2">Estoque ID</th>
+              <th className="border border-gray-300 px-4 py-2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {movimentacoes.map(movimentacao => (
+              <tr key={movimentacao.id}>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.id}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.data}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.quantidade}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.fk_tipo_id ? 'Saída' : 'Entrada'}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomeproduto}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomefuncionario}</td>
+                <td className="border border-gray-300 px-4 py-2">{movimentacao.nomeestoque}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    onClick={() => updateMovimentacao(movimentacao)}
+                  >
+                    Atualizar
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    onClick={() => deleteMovimentacao(movimentacao.ID)}
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       {isFormVisible && (
         <MovimentacoesForm
           movimentacao={currentMovimentacao}
-          fetchMovimentacoes={fetchMovimentacoes}
+          onSubmit={handleSubmit} // Passando a função handleSubmit para o form
           onClose={() => setIsFormVisible(false)}
         />
       )}

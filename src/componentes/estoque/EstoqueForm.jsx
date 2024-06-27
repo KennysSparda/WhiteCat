@@ -1,18 +1,19 @@
-// src/componentes/estoques/EstoqueForm.jsx
-
 import React, { useState, useEffect } from 'react';
 
 const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
+  const [local, setLocal] = useState('');
 
   useEffect(() => {
     if (estoque) {
-      setNome(estoque.Nome || '');
-      setDescricao(estoque.Descricao || '');
+      setNome(estoque.nome || '');
+      setDescricao(estoque.descricao || '');
+      setLocal(estoque.local || '');
     } else {
       setNome('');
       setDescricao('');
+      setLocal('');
     }
   }, [estoque]);
 
@@ -22,13 +23,14 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
     const estoqueData = {
       nome: nome,
       descricao: descricao,
+      local: local,
     };
 
     try {
       let response;
       if (estoque) {
-        // Atualizando estoque existente
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques/${estoque.EstoqueID}`, {
+        // Updating existing stock
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/estoque/${estoque.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -36,8 +38,8 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
           body: JSON.stringify(estoqueData),
         });
       } else {
-        // Adicionando novo estoque
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/estoques`, {
+        // Adding new stock
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/estoque`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -47,20 +49,20 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
       }
 
       if (!response.ok) {
-        throw new Error(estoque ? 'Failed to update estoque' : 'Failed to add estoque');
+        throw new Error(estoque ? 'Failed to update stock' : 'Failed to add stock');
       }
 
       const updatedEstoque = await response.json();
       onSubmit(updatedEstoque);
     } catch (error) {
-      console.error('Error submitting estoque:', error);
+      console.error('Error sending stock:', error);
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">{estoque ? 'Atualizar Estoque' : 'Adicionar Estoque'}</h2>
+        <h2 className="text-2xl font-bold mb-4">{estoque ? 'Update Stock' : 'Add Stock'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Nome</label>
@@ -77,6 +79,15 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
             <textarea
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Localização</label>
+            <input
+              type="text"
+              value={local}
+              onChange={(e) => setLocal(e.target.value)}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -102,4 +113,3 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
 };
 
 export default EstoqueForm;
-

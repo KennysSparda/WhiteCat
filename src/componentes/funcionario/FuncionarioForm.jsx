@@ -1,15 +1,13 @@
-// src/componentes/funcionarios/FuncionariosForm.jsx
-
 import React, { useState, useEffect } from 'react';
 
-const FuncionariosForm = ({ funcionario, onSubmit, onClose }) => {
+const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
   const [nome, setNome] = useState('');
   const [cargo, setCargo] = useState('');
 
   useEffect(() => {
     if (funcionario) {
-      setNome(funcionario.Nome || '');
-      setCargo(funcionario.Cargo || '');
+      setNome(funcionario.nome || '');
+      setCargo(funcionario.cargo || '');
     } else {
       setNome('');
       setCargo('');
@@ -24,7 +22,38 @@ const FuncionariosForm = ({ funcionario, onSubmit, onClose }) => {
       cargo: cargo
     };
 
-    onSubmit(funcionarioData);
+    try {
+      let response;
+      if (funcionario) {
+        // Atualizando funcionario existente
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario/${funcionario.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(funcionarioData),
+        });
+      } else {
+        // Adicionando novo funcionario
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(funcionarioData),
+        });
+      }
+
+      if (!response.ok) {
+        throw new Error(funcionario ? 'Failed to update funcionario' : 'Failed to add funcionario');
+      }
+
+      fetchFuncionarios(); // Atualiza a lista de funcionarios após a operação
+      onClose(); // Fecha o formulário após a conclusão
+
+    } catch (error) {
+      console.error('Error submitting funcionario:', error);
+    }
   };
 
   return (
@@ -72,5 +101,4 @@ const FuncionariosForm = ({ funcionario, onSubmit, onClose }) => {
   );
 };
 
-export default FuncionariosForm;
-
+export default FuncionarioForm;

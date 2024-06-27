@@ -7,9 +7,9 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
 
   useEffect(() => {
     if (product) {
-      setNome(product.Nome || '');
-      setValor(product.Valor || '');
-      setDescricao(product.Descricao || '');
+      setNome(product.nome || '');
+      setValor(product.valor || '');
+      setDescricao(product.descricao || '');
     } else {
       setNome('');
       setValor('');
@@ -30,7 +30,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
       let response;
       if (product) {
         // Atualizando produto existente
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/${product.ProdutoID}`, {
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto/${product.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
         });
       } else {
         // Adicionando novo produto
-        response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos`, {
+        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -118,4 +118,3 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
 };
 
 export default ProductForm;
-

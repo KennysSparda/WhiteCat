@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProductForm from './ProdutosForm';
+import ProductForm from './ProdutoForm';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -12,7 +12,7 @@ const ProductList = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -35,13 +35,13 @@ const ProductList = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      const response = await fetch(`https://pure-reef-23012-9eb68eca9f5c.herokuapp.com/produtos/${productId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto/${productId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Failed to delete product');
       }
-      setProducts(products.filter(product => product.ProdutoID !== productId));
+      setProducts(products.filter(product => product.id !== productId));
     } catch (error) {
       console.error('Error deleting product:', error);
     }
@@ -58,10 +58,10 @@ const ProductList = () => {
       </button>
       <div className="grid grid-cols-3 gap-4">
         {products.map(product => (
-          <div key={product.ProdutoID} className="border p-4 rounded shadow-md">
-            <h3 className="text-lg font-semibold mb-2">{product.Nome}</h3>
-            {product.Descricao && <p className="text-gray-600">{product.Descricao}</p>}
-            <p className="text-gray-700 mt-2">Preço: R$ {product.Valor}</p>
+          <div key={product.id} className="border p-4 rounded shadow-md">
+            <h3 className="text-lg font-semibold mb-2">{product.nome}</h3>
+            {product.descricao && <p className="text-gray-600">{product.descricao}</p>}
+            <p className="text-gray-700 mt-2">Valor: R$ {product.valor}</p>
             <div className="mt-4">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
@@ -71,7 +71,7 @@ const ProductList = () => {
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded"
-                onClick={() => deleteProduct(product.ProdutoID)}
+                onClick={() => deleteProduct(product.id)}
               >
                 Excluir
               </button>
@@ -91,4 +91,3 @@ const ProductList = () => {
 };
 
 export default ProductList;
-

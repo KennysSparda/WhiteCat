@@ -63,3 +63,5 @@ __next_image_optimizer/
 
 # Node.js TypeScript cache
 node_modules/.cache/
+
+.env
