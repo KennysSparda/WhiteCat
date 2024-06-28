@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.oxanium-font {
+    font-family: "Oxanium", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: bold;
+    letter-spacing: +0.05em;
+    font-stretch: extra-condensed; 
+}
+
+.primary-color {
+    color: #3982B9;
+}
