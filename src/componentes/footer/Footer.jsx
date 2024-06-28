@@ -1,16 +1,25 @@
 import BtnLinkedin from './ButtonLinkedin';
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8 absolute bottom-0 w-full z-30">
-    <div className="container mx-auto flex flex-col items-center space-y-4 md:space-y-0 md:flex-row md:justify-center md:space-x-4">
-      <BtnLinkedin />
-    </div>
-    <div className="mt-8 text-center text-gray-500">
-      <p className="mb-2">Atualizado em 28/06/2024 | Campo Largo, PR</p>
-      <p className="mb-2">Versão do projeto: 0.5.79</p>
-      <p>© Kenny Vargas</p>
-    </div>
-  </footer>
+    <footer className="bg-gray-800 text-white py-8 relative bottom-0 w-full z-30">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+
+        <div className="flex items-center space-x-4">
+          <BtnLinkedin />
+        </div>
+        
+        <p className="pl-44 text-center md:text-left">© 2024 Kenny Vargas. Todos os direitos reservados e negociáveis.</p>
+        {/* Seção das informações de atualização e versão */}
+        <div className="text-center md:text-right text-gray-500">
+          {/* Informações de atualização e versão */}
+          <p className="mb-2">Versão: 0.0.129</p>
+          <p className="mb-2">Atualizado em 28/06/2024 | Campo Largo, PR</p>
+        </div>
+        
+      </div>
+    </footer>
   );
 }
+
+export default Footer;

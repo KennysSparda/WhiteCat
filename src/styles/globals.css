@@ -11,6 +11,25 @@
     font-stretch: extra-condensed; 
 }
 
+@font-face {
+    font-family: 'A-Space-Demo';
+    src:url('/fonts/A-Space-Demo.ttf.woff') format('woff'),
+        url('/fonts/A-Space-Demo.ttf.svg#A-Space-Demo') format('svg'),
+        url('/fonts/A-Space-Demo.ttf.eot'),
+        url('/fonts/A-Space-Demo.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: lighter;
+    font-style: normal;
+}
+
+.a-space-demo-font {
+    font-family: 'A-Space-Demo', sans-serif;
+}
+
 .primary-color {
-    color: #3982B9;
+    color: #3978C9;
+}
+
+.logo {
+    margin-top: 20vh;
+    height: 45vh;
 }
