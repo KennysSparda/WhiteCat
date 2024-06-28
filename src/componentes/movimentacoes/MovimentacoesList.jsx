@@ -107,10 +107,17 @@ const MovimentacoesList = () => {
   };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
+    // Usando regex para extrair ano, mês e dia da string de data
+    const regex = /(\d{4})-(\d{2})-(\d{2})/;
+    const match = dateString.match(regex);
+    
+    if (!match) {
+      throw new Error('Invalid date format');
+    }
+  
+    const [_, year, month, day] = match;
+  
+    // Retorna a data no formato DD/MM/YYYY
     return `${day}/${month}/${year}`;
   };
 
