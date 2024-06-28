@@ -25,9 +25,6 @@ const MovimentacoesSkeleton = () => {
       <td className="border border-gray-300 px-4 py-2 text-center">
         <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
       </td>
-      <td className="border border-gray-300 px-4 py-2 text-center">
-        <div className="h-8 bg-gray-300 rounded w-3/4 mx-auto"></div>
-      </td>
     </tr>
   );
 };
@@ -137,7 +134,6 @@ const MovimentacoesList = () => {
               <th className="border border-gray-300 px-4 py-2">Produto</th>
               <th className="border border-gray-300 px-4 py-2">Funcionário</th>
               <th className="border border-gray-300 px-4 py-2">Estoque</th>
-              <th className="border border-gray-300 px-4 py-2">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -157,20 +153,6 @@ const MovimentacoesList = () => {
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">
-                    <button
-                      className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                      onClick={() => updateMovimentacao(movimentacao)}
-                    >
-                      Atualizar
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                      onClick={() => deleteMovimentacao(movimentacao.id)}
-                    >
-                      Excluir
-                    </button>
-                  </td>
                 </tr>
               ))
             )}
