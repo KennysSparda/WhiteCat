@@ -1,4 +1,5 @@
 // components/Home.jsx
+import Footer from './footer/Footer'
 
 const Home = () => {
   return (
@@ -27,7 +28,7 @@ const Home = () => {
       </div>
 
       {/* Text content */}
-      <div className="absolute bottom-20 left-0 right-0 p-8 text-white z-20">
+      <div className="absolute bottom-60 left-0 right-0 p-8 text-white z-20">
         <p className="text-gray-200">
           Este é um sistema de gestão onde você pode gerenciar produtos, funcionários, estoques e movimentações.
         </p>
@@ -54,6 +55,7 @@ const Home = () => {
           </li>
         </ul>
       </div>
+      <Footer />
     </div>
   );
 };
