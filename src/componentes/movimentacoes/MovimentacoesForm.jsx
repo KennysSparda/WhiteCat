@@ -48,15 +48,18 @@ const ProductForm = ({ product, onSubmit, onClose }) => {
     event.preventDefault();
   
     const movimentacaoData = {
-      Data: data,
-      Quantidade: parseInt(quantidade),
-      fk_Tipo_ID: tipo === 'entrada' ? 1 : 2,
-      fk_Produto_ID: parseInt(produtoID),
-      fk_Funcionario_ID: parseInt(funcionarioID),
-      fk_Estoque_ID: parseInt(estoqueID),
+        Data: data,
+        Quantidade: parseInt(quantidade),
+        fk_Tipo_ID: tipo === 'entrada' ? 1 : 2,
+        fk_Produto_ID: parseInt(produtoID),
+        fk_Funcionario_ID: parseInt(funcionarioID),
+        fk_Estoque_ID: parseInt(estoqueID),
     };
   
-    onSubmit(movimentacaoData);
+    const response = await onSubmit(movimentacaoData);
+    if (!response.success) {
+        alert(response.message);
+    }
   };
 
   return (

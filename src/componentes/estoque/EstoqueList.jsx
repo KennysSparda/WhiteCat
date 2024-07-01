@@ -101,14 +101,14 @@ const EstoquesList = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {isLoading ? (
               Array.from({ length: 6 }).map((_, index) => (
                 <EstoqueSkeleton key={index} />
               ))
             ) : (
               filteredEstoques.map(estoque => (
-                <div key={estoque.id} className="border p-4 rounded shadow-md flex justify-between items-start w-42 h-36">
+                <div key={estoque.id} className="border-2 border-black  p-4 rounded shadow-md flex justify-between items-start w-72 h-36">
                   <div className="flex-grow">
                     <h3 className="text-lg font-semibold mb-2">{estoque.nome}</h3>
                     {estoque.descricao && <p className="text-gray-600 overflow-hidden overflow-ellipsis h-5">{estoque.descricao}</p>}

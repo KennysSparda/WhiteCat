@@ -88,14 +88,14 @@ const ProductList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {isLoading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <ProductSkeleton key={index} />
           ))
         ) : (
           filteredProducts.map(product => (
-            <div key={product.id} className="border p-4 rounded shadow-md flex justify-between items-start w-42 h-36">
+            <div key={product.id} className="border-2 border-black p-4 rounded shadow-md flex justify-between items-start w-42 h-36">
               <div className="flex-grow">
                 <h3 className="text-lg font-semibold mb-2">{product.nome}</h3>
                 {product.descricao && <p className="text-gray-600 overflow-hidden overflow-ellipsis h-5">{product.descricao}</p>}
