@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Footer from '../componentes/footer/Footer'
 
 const About = () => {
   // State para controlar seções visíveis
@@ -111,7 +112,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={section3Visible ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
           className="flex flex-col md:flex-row items-center mt-16"
           ref={ref3}
         >
@@ -138,7 +139,7 @@ const About = () => {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={section3Visible ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8 }}
             className="md:w-1/2 mt-8 md:mt-0 md:ml-8 flex justify-center"
           >
             <img
@@ -149,6 +150,7 @@ const About = () => {
           </motion.div>
         </motion.div>
       </div>
+      <Footer />
     </div>
   );
 };
