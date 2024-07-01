@@ -18,13 +18,14 @@ const GetToday = () => {
   return formattedDate;
 };
 
-const ProductForm = ({ product, onSubmit, onClose }) => {
+const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
   const [data, setData] = useState(GetToday());
   const [quantidade, setQuantidade] = useState('');
   const [tipo, setTipo] = useState('entrada');
   const [produtoID, setProdutoID] = useState('');
   const [funcionarioID, setFuncionarioID] = useState('');
   const [estoqueID, setEstoqueID] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (product) {
@@ -46,7 +47,7 @@ const ProductForm = ({ product, onSubmit, onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const movimentacaoData = {
       Data: data,
       Quantidade: parseInt(quantidade),
@@ -55,13 +56,32 @@ const ProductForm = ({ product, onSubmit, onClose }) => {
       fk_Funcionario_ID: parseInt(funcionarioID),
       fk_Estoque_ID: parseInt(estoqueID),
     };
-  
-    onSubmit(movimentacaoData);
+
+    try {
+      const response = await onSubmit(movimentacaoData);
+      if (!response || !response.success) {
+        if (response && response.message === 'Quantidade insuficiente no estoque.') {
+          setErrorMessage('Quantidade insuficiente no estoque.');
+        } else {
+          setErrorMessage(response ? response.message : 'Erro desconhecido.');
+        }
+      } else {
+        setErrorMessage('');
+        onClose(); // Fechar o formulário em caso de sucesso
+      }
+    } catch (error) {
+      setErrorMessage('Erro ao enviar os dados: ' + error.message);
+    }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
+        {errorMessage && (
+          <div className="mb-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
+            {errorMessage}
+          </div>
+        )}
         <h2 className="text-2xl font-bold mb-4">{product ? 'Atualizar Movimentação' : 'Adicionar Movimentação'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -151,4 +171,4 @@ const ProductForm = ({ product, onSubmit, onClose }) => {
   );
 };
 
-export default ProductForm;
+export default MovimentacoesForm;

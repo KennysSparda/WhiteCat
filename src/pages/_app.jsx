@@ -7,11 +7,11 @@ import '../styles/globals.css'
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Head>
-        <title>Self Control</title>
-        <link rel="shortcut icon" href="/img/favicon.ico"></link>
-      </Head>
-      <Component {...pageProps} />
+        <Head>
+          <title>Self Control</title>
+          <link rel="shortcut icon" href="/img/favicon.ico"></link>
+        </Head>
+        <Component {...pageProps} />
     </>
   )
 }

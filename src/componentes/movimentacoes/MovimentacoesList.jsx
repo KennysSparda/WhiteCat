@@ -3,12 +3,192 @@ import MovimentacoesForm from './MovimentacoesForm';
 
 const MovimentacoesSkeleton = () => {
   return (
-    <tr className="animate-pulse">
+    <>
+      <tr className="animate-pulse">
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
       <td className="border border-gray-300 px-4 py-2 text-center">
-        <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-      </td>
-      {/* Repetir para outras colunas */}
-    </tr>
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+      <tr className="animate-pulse">
+      <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+        <td className="border border-gray-300 px-4 py-2 text-center">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+        </td>
+      </tr>
+    </>
   );
 };
 
@@ -25,10 +205,8 @@ const MovimentacoesList = () => {
   const [dataInicial, setDataInicial] = useState('');
   const [dataFinal, setDataFinal] = useState('');
 
-
   useEffect(() => {
     fetchMovimentacoes();
-    calculateTotalPages();
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -37,12 +215,12 @@ const MovimentacoesList = () => {
   }, []);
 
   useEffect(() => {
-    calculateTotalPages();
-  }, [movimentacoes, itemsPerPage]);
-
-  useEffect(() => {
     calculateItemsPerPage();
   }, [windowWidth]);
+
+  useEffect(() => {
+    calculateTotalPages();
+  }, [movimentacoes, itemsPerPage, filtroGeral, dataInicial, dataFinal]);
 
   const fetchMovimentacoes = async () => {
     try {
@@ -62,25 +240,6 @@ const MovimentacoesList = () => {
   const addMovimentacao = () => {
     setCurrentMovimentacao(null);
     setIsFormVisible(true);
-  };
-
-  const updateMovimentacao = (movimentacao) => {
-    setCurrentMovimentacao(movimentacao);
-    setIsFormVisible(true);
-  };
-
-  const deleteMovimentacao = async (movimentacaoId) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes/${movimentacaoId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to delete movimentacao');
-      }
-      setMovimentacoes(movimentacoes.filter(mov => mov.id !== movimentacaoId));
-    } catch (error) {
-      console.error('Error deleting movimentacao:', error);
-    }
   };
 
   const handleSubmit = async (movimentacaoData) => {
@@ -124,8 +283,12 @@ const MovimentacoesList = () => {
   };
 
   const calculateTotalPages = () => {
-    const totalPagesCount = Math.ceil(movimentacoes.length / itemsPerPage);
+    const filteredMovimentacoes = filterMovimentacoes();
+    const totalPagesCount = Math.ceil(filteredMovimentacoes.length / itemsPerPage === 0 ? 1 : filteredMovimentacoes.length / itemsPerPage);
     setTotalPages(totalPagesCount > 0 ? totalPagesCount : 1);
+    if (currentPage > totalPagesCount) {
+      setCurrentPage(totalPagesCount);
+    }
   };
 
   const calculateItemsPerPage = () => {
@@ -154,44 +317,51 @@ const MovimentacoesList = () => {
   const handleDataInicialChange = (event) => {
     setDataInicial(event.target.value);
   };
-  
+
   const handleDataFinalChange = (event) => {
     setDataFinal(event.target.value);
-  };  
+  };
 
-  const filteredMovimentacoes = movimentacoes.filter(movimentacao => {
-    const movimentacaoDate = new Date(movimentacao.data);
-    const initialDate = dataInicial ? new Date(dataInicial) : null;
-    const finalDate = dataFinal ? new Date(dataFinal) : null;
-  
-    // Verifica se a movimentação está dentro do intervalo de datas selecionado
-    return (
-      (!initialDate || movimentacaoDate >= initialDate) &&
-      (!finalDate || movimentacaoDate <= finalDate) &&
-      (movimentacao.data.includes(filtroGeral) ||
-      movimentacao.nomeproduto.toLowerCase().includes(filtroGeral.toLowerCase()) ||
-      movimentacao.nomefuncionario.toLowerCase().includes(filtroGeral.toLowerCase()) ||
-      movimentacao.nomeestoque.toLowerCase().includes(filtroGeral.toLowerCase()))
-    );
-  });
+  const filterMovimentacoes = () => {
+    return movimentacoes.filter((movimentacao) => {
+      const movimentacaoDate = new Date(movimentacao.data);
+      const initialDate = dataInicial ? new Date(dataInicial) : null;
+      const finalDate = dataFinal ? new Date(dataFinal) : null;
+
+      // Verifica se a movimentação está dentro do intervalo de datas selecionado
+      return (
+        (!initialDate || movimentacaoDate >= initialDate) &&
+        (!finalDate || movimentacaoDate <= finalDate) &&
+        (movimentacao.data.includes(filtroGeral) ||
+          movimentacao.nomeproduto.toLowerCase().includes(filtroGeral.toLowerCase()) ||
+          movimentacao.nomefuncionario.toLowerCase().includes(filtroGeral.toLowerCase()) ||
+          movimentacao.nomeestoque.toLowerCase().includes(filtroGeral.toLowerCase()))
+      );
+    });
+  };
+
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toISOString().substr(0, 10); // Formato YYYY-MM-DD
     setDataInicial(formattedDate);
     setDataFinal(formattedDate);
   }, []);
-  
 
+  const filteredMovimentacoes = filterMovimentacoes();
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredMovimentacoes.slice(indexOfFirstItem, indexOfLastItem);
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const prevPage = () => {
-    setCurrentPage(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   const firstPage = () => {

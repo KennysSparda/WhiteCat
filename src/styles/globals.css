@@ -29,7 +29,12 @@
     color: #3982B9;
 }
 
+.hover-primary-color:hover {
+    color: #3982B9;
+}
+
 .logo {
     margin-top: 20vh;
     height: 45vh;
 }
+

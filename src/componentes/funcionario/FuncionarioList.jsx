@@ -15,7 +15,7 @@ const FuncionarioSkeleton = () => {
   );
 };
 
-const FuncionariosList = () => {
+const FuncionarioList = ({ onChangeComponent }) => {
   const [funcionarios, setFuncionarios] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,15 +59,18 @@ const FuncionariosList = () => {
       if (!response.ok) {
         throw new Error('Failed to delete funcionario');
       }
+      await response.json(); // Assuming backend returns success message
       setFuncionarios(funcionarios.filter(func => func.id !== funcionarioId));
     } catch (error) {
       console.error('Error deleting funcionario:', error);
+      alert('Error deleting funcionario: ' + error.message);
     }
   };
 
-  const filteredFuncionarios = funcionarios.filter(funcionario =>
+  
+  const filteredfuncionarios = funcionarios.filter(funcionario =>
     funcionario.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    funcionario.cargo.toLowerCase().includes(searchTerm.toLowerCase())
+    (funcionario.descricao && funcionario.descricao.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -76,7 +79,7 @@ const FuncionariosList = () => {
       <div className="flex items-center space-x-4 mb-4">
         <button
           className="bg-green-500 text-white px-4 py-2 rounded"
-          onClick={addFuncionario}
+          onClick={() => addFuncionario()}
         >
           Adicionar Funcionário
         </button>
@@ -88,14 +91,14 @@ const FuncionariosList = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {isLoading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <FuncionarioSkeleton key={index} />
           ))
         ) : (
-          filteredFuncionarios.map(funcionario => (
-            <div key={funcionario.id} className="border p-4 rounded shadow-md flex justify-between items-start w-42 h-36">
+          filteredfuncionarios.map(funcionario => (
+            <div key={funcionario.id} className="border-2 border-black  p-4 rounded shadow-md flex justify-between items-start">
               <div className="flex-grow">
                 <h3 className="text-lg font-semibold mb-2">{funcionario.nome}</h3>
                 <p className="text-gray-600">Cargo: {funcionario.cargo}</p>
@@ -104,7 +107,10 @@ const FuncionariosList = () => {
                 <button
                   title="Atualizar"
                   className="bg-transparent hover:bg-blue-500 text-blue-900 hover:text-white w-8 rounded"
-                  onClick={() => updateFuncionario(funcionario)}
+                  onClick={() => {
+                    setCurrentFuncionario(funcionario);
+                    setIsFormVisible(true);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +129,7 @@ const FuncionariosList = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M20.807 3.17c-.804-.805-2.207-.805-3.012 0l-7.143 7.143c-.068.068-.117.154-.14.247L9.76 13.571c-.045.181.008.373.14.506.101.101.237.156.376.156.043 0 .086-.005.129-.016l3.012-.753c.094-.023.179-.072.247-.14l7.143-7.143c.402-.402.624-.937.624-1.506S21.21 3.572 20.807 3.17zM13.016 12.467l-2.008.502.502-2.008 5.909-5.909 1.506 1.506-5.909 5.909zM20.054 5.428l-.376.376-1.506-1.506.376-.376c.402-.402 1.104-.402 1.506 0 .201.201.312.468.312.753 0 .285-.111.552-.312.753z"
+                      d="M20.807 3.17c-.804-.805-2.207-.805-3.012 0l-7.143 7.143c-.068.068-.117.154-.14.247L9.76 13.42l2.962-.95 3.252-3.252c.093-.023.179-.072.247-.14l7.143-7.143c.805-.805.805-2.208 0-3.012l-1.268-1.268z"
                     />
                   </svg>
                 </button>
@@ -163,4 +169,4 @@ const FuncionariosList = () => {
   );
 };
 
-export default FuncionariosList;
+export default FuncionarioList;

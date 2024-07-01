@@ -91,42 +91,44 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Produtos do Estoque</h2>
-      <div className="mb-4 flex items-center">
-        <p className="mr-4">Total de Quantidade de Produtos: {totalQuantidade}</p>
-        <p className="mr-4">Quantidade de Produtos Diferentes: {quantidadeDiferentes}</p>
+      <div className="mb-4 flex justify-between items-start">
         <input
           type="text"
           placeholder="Buscar..."
-          className="border p-2 rounded w-full w-1/3 mr-4"
+          className="border p-2 rounded w-1/3 w-1/4 m-4"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
+        <p className="m-4">Total de Produtos: <strong>{totalQuantidade}</strong></p>
+        <p className="m-4">Produtos Diferentes: <strong>{quantidadeDiferentes}</strong></p>
+
         <div className="relative">
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            className={`px-4 py-2 rounded m-2 w-36 ${sortBy === 'nomeproduto' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}
             onClick={() => handleSortChange('nomeproduto')}
           >
-            Ordenar por Nome {sortBy === 'nomeproduto' && `(${sortOrder === 'asc' ? 'A-Z' : 'Z-A'})`}
+            Nome {sortBy === 'nomeproduto' && <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>}
           </button>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className={`px-4 py-2 rounded m-2 w-36 ${sortBy === 'quantidade' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}
             onClick={() => handleSortChange('quantidade')}
           >
-            Ordenar por Quantidade {sortBy === 'quantidade' && `(${sortOrder === 'asc' ? '+' : '-'})`}
+            Quantidade {sortBy === 'quantidade' && <span>{sortOrder === 'asc' ? '↑' : '↓'}</span>}
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {isLoading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <ProdutoEstoqueSkeleton key={index} />
           ))
         ) : (
           sortedProducts.map(produto => (
-            <div key={produto.produtoestoqueid} className="border p-4 rounded shadow-md">
+            <div key={produto.produtoestoqueid} className="border-2 border-black  p-4 rounded shadow-md">
               <h3 className="text-lg font-semibold mb-2">{produto.nomeproduto}</h3>
               <h4 className="text-lg font-semibold mb-2">{produto.descricaoproduto}</h4>
-              <p className="text-gray-600t-10">Quantidade: {produto.quantidade}</p>
+              <p className="text-gray-600t-10">Quantidade: <strong>{produto.quantidade}</strong></p>
             </div>
           ))
         )}

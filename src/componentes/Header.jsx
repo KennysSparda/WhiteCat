@@ -1,10 +1,8 @@
-// src/components/Header.js
-
-import Link from 'next/link';
+// components/Header.js
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const Header = ({ currentComponent, onChangeComponent }) => {
+const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -31,11 +29,72 @@ const Header = ({ currentComponent, onChangeComponent }) => {
       : 'text-white hover:text-gray-500 cursor-pointer';
   };
 
+  const renderLoggedInButtons = () => {
+    console.log(userAccessLevel)
+    switch (userAccessLevel) {
+      case 0:
+        return (
+          <a
+            className="text-white hover:text-gray-500 cursor-pointer"
+            onClick={() => onChangeComponent('login')}
+          >
+            Login
+          </a>
+        );
+      case 1:
+        return (
+          <>
+            <span className={getLinkClass('produtos')} onClick={() => onChangeComponent('produtos')}>
+              Materiais
+            </span>
+            <span className={getLinkClass('estoques')} onClick={() => onChangeComponent('estoques')}>
+              Estoques
+            </span>
+            <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
+              Movimentações
+            </span>
+            <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
+              Logout
+            </button>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <span className={getLinkClass('funcionarios')} onClick={() => onChangeComponent('funcionarios')}>
+              Funcionários
+            </span>
+            <span className={getLinkClass('produtos')} onClick={() => onChangeComponent('produtos')}>
+              Materiais
+            </span>
+            <span className={getLinkClass('estoques')} onClick={() => onChangeComponent('estoques')}>
+              Estoques
+            </span>
+            <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
+              Movimentações
+            </span>
+            <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
+              Logout
+            </button>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const handleLogout = () => {
+    // Lógica para deslogar o usuário
+    console.log('Logout realizado');
+    // Redirecionar para a página de login
+    window.location.href = '/';
+  };
+
   return (
     <header className="bg-gray-800 fixed top-0 left-0 w-full z-50 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-3xl a-space-demo-font text-white">
-          <span className="primary-color">self</span>control
+        <h1 className="text-3xl a-space-demo-font text-white" onClick={() => onChangeComponent('home')}>
+          <span className="primary-color">self</span><span className='hover-primary-color'>control</span>
         </h1>
         {isMobile ? (
           <div className="md:hidden">
@@ -62,42 +121,8 @@ const Header = ({ currentComponent, onChangeComponent }) => {
           </div>
         ) : (
           <nav className="space-x-4">
-            <span
-              className={getLinkClass('home')}
-              onClick={() => onChangeComponent('home')}
-            >
-              Início
-            </span>
-            <span
-              className={getLinkClass('about')}
-              onClick={() => onChangeComponent('about')}
-            >
-              Sobre
-            </span>
-            <span
-              className={getLinkClass('produtos')}
-              onClick={() => onChangeComponent('produtos')}
-            >
-              Materiais
-            </span>
-            <span
-              className={getLinkClass('funcionarios')}
-              onClick={() => onChangeComponent('funcionarios')}
-            >
-              Funcionários
-            </span>
-            <span
-              className={getLinkClass('estoques')}
-              onClick={() => onChangeComponent('estoques')}
-            >
-              Estoques
-            </span>
-            <span
-              className={getLinkClass('movimentacoes')}
-              onClick={() => onChangeComponent('movimentacoes')}
-            >
-              Movimentações
-            </span>
+            {/* Renderiza botões diferentes com base no nível de acesso */}
+            {renderLoggedInButtons()}
           </nav>
         )}
       </div>
@@ -119,51 +144,8 @@ const Header = ({ currentComponent, onChangeComponent }) => {
             >
               Início
             </motion.span>
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('about')}`}
-              onClick={() => {
-                onChangeComponent('about');
-                setIsOpen(false);
-              }}
-            >
-              Sobre
-            </motion.span>
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('produtos')}`}
-              onClick={() => {
-                onChangeComponent('produtos');
-                setIsOpen(false);
-              }}
-            >
-              Materiais
-            </motion.span>
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('funcionarios')}`}
-              onClick={() => {
-                onChangeComponent('funcionarios');
-                setIsOpen(false);
-              }}
-            >
-              Funcionários
-            </motion.span>
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('estoques')}`}
-              onClick={() => {
-                onChangeComponent('estoques');
-                setIsOpen(false);
-              }}
-            >
-              Estoques
-            </motion.span>
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('movimentacoes')}`}
-              onClick={() => {
-                onChangeComponent('movimentacoes');
-                setIsOpen(false);
-              }}
-            >
-              Movimentações
-            </motion.span>
+            {/* Renderiza botões diferentes com base no nível de acesso */}
+            {renderLoggedInButtons()}
           </div>
         </motion.nav>
       )}
