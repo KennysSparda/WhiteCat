@@ -23,17 +23,12 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
       }
 
       const data = await response.json();
-      console.log(data)
       setUserId(data.id); // Define o ID do usuário logado
       setUserAccessLevel(data.nivelacesso); // Define o nível de acesso do usuário logado
-
-      console.log(`ID do usuário logado: ${data.id}`);
-      console.log(`Nível de acesso do usuário logado: ${data.nivelacesso}`);
 
       // Redirecionar para o home após login bem-sucedido
       onSuccessLogin();
       onChangeComponent('home')
-      console.log('Login bem-sucedido');
     } catch (error) {
       console.error('Erro ao fazer login:', error.message);
       setError(error.message); // Exibir mensagem de erro

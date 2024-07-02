@@ -57,9 +57,6 @@ const IndexPage = () => {
   // Determina se o componente deve ocupar a largura total ou ter margens
   const shouldFullWidth = currentComponent === 'home' || currentComponent === 'login';
 
-  console.log(`userId: ${userId}`);
-  console.log(`userAccessLevel: ${userAccessLevel}`);
-
   return (
     <div>
       <Header currentComponent={currentComponent} onChangeComponent={handleChangeComponent} userAccessLevel={userAccessLevel} />

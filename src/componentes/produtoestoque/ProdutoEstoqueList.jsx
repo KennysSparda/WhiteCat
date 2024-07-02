@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import EstoquesList from '../estoque/EstoqueList';
+import PoucoEstoqueNotificacao from './PoucoEstoqueNotificacao';
 
 const ProdutoEstoqueSkeleton = () => {
   return (
@@ -20,6 +20,9 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [showPoucoEstoqueNotificacao, setShowPoucoEstoqueNotificacao] = useState(false);
+
+  const lowStockProducts = produtos.filter(produto => produto.quantidade < 5);
 
   useEffect(() => {
     fetchProdutosEstoque();
@@ -44,6 +47,10 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
       });
       setTotalQuantidade(total);
       setQuantidadeDiferentes(diferentes.size);
+
+      // Verificar se há produtos com estoque baixo
+      const hasLowStock = data.some(produto => produto.quantidade < 5);
+      setShowPoucoEstoqueNotificacao(hasLowStock); // Mostrar notificação se houver produtos com estoque baixo
     } catch (error) {
       console.error('Error fetching produtos do estoque:', error);
     } finally {
@@ -88,6 +95,10 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
 
   const sortedProducts = sortProducts(filteredProducts);
 
+  const handleCloseNotification = () => {
+    setShowPoucoEstoqueNotificacao(false); // Fecha a notificação de estoque baixo
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Produtos do Estoque</h2>
@@ -125,14 +136,17 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
           ))
         ) : (
           sortedProducts.map(produto => (
-            <div key={produto.produtoestoqueid} className="border-2 border-black  p-4 rounded shadow-md">
+            <div key={produto.produtoestoqueid} className="border-2 border-black  p-4 rounded shadow-md h-48">
               <h3 className="text-lg font-semibold mb-2">{produto.nomeproduto}</h3>
               <h4 className="text-lg font-semibold mb-2">{produto.descricaoproduto}</h4>
               <p className="text-gray-600t-10">Quantidade: <strong>{produto.quantidade}</strong></p>
+              <p className="text-gray-600">Preço: <strong>R$ {produto.valorproduto}</strong></p>
+              <p className="text-gray-600">Total em estoque: <strong>R$ {produto.quantidade * produto.valorproduto}</strong></p>
             </div>
           ))
         )}
       </div>
+      {showPoucoEstoqueNotificacao && <PoucoEstoqueNotificacao products={lowStockProducts} onClose={handleCloseNotification} />}
     </div>
   );
 };

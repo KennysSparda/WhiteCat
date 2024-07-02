@@ -1,10 +1,12 @@
 // components/Header.js
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import ListaCompras from '../componentes/listadecompras/ListaDeCompras'; // Importe o componente ListaCompras
 
 const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showListaCompras, setShowListaCompras] = useState(false); // Estado para controlar visibilidade do ListaCompras
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,6 +25,14 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
     setIsOpen(!isOpen);
   };
 
+  const toggleListaCompras = () => {
+    setShowListaCompras(!showListaCompras); // Inverte o estado de visibilidade do ListaCompras
+  };
+
+  const handleCloseListaCompras = () => {
+    setShowListaCompras(false); // Fecha o ListaCompras
+  };
+
   const getLinkClass = (component) => {
     return currentComponent === component
       ? 'primary-color cursor-pointer'
@@ -30,7 +40,6 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   };
 
   const renderLoggedInButtons = () => {
-    console.log(userAccessLevel)
     switch (userAccessLevel) {
       case 0:
         return (
@@ -53,6 +62,14 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
             <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
               Movimentações
             </span>
+            <button
+              className="text-white hover:text-gray-500 cursor-pointer"
+              onClick={toggleListaCompras}
+            >
+              Lista de Compras
+            </button>
+  
+
             <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
               Logout
             </button>
@@ -73,6 +90,12 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
             <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
               Movimentações
             </span>
+            <button
+              className="text-white hover:text-gray-500 cursor-pointer"
+              onClick={toggleListaCompras}
+            >
+              Lista de Compras
+            </button>
             <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
               Logout
             </button>
@@ -85,7 +108,6 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
 
   const handleLogout = () => {
     // Lógica para deslogar o usuário
-    console.log('Logout realizado');
     // Redirecionar para a página de login
     window.location.href = '/';
   };
@@ -135,19 +157,14 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
           className="md:hidden overflow-hidden"
         >
           <div className="flex flex-col md:flex-row md:space-x-4 md:items-center md:w-auto mt-4 md:mt-0">
-            <motion.span
-              className={`block md:inline-block ${getLinkClass('home')}`}
-              onClick={() => {
-                onChangeComponent('home');
-                setIsOpen(false);
-              }}
-            >
-              Início
-            </motion.span>
             {/* Renderiza botões diferentes com base no nível de acesso */}
             {renderLoggedInButtons()}
           </div>
         </motion.nav>
+      )}
+      {/* ListaCompras - renderiza se showListaCompras for true */}
+      {showListaCompras && (
+        <ListaCompras onClose={handleCloseListaCompras} />
       )}
     </header>
   );
