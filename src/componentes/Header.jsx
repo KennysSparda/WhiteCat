@@ -115,7 +115,7 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   return (
     <header className="bg-gray-800 fixed top-0 left-0 w-full z-50 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-3xl a-space-demo-font text-white" onClick={() => onChangeComponent('home')}>
+        <h1 className="text-3xl a-space-demo-font text-white cursor-pointer" onClick={() => onChangeComponent('home')}>
           <span className="primary-color">self</span><span className='hover-primary-color'>control</span>
         </h1>
         {isMobile ? (

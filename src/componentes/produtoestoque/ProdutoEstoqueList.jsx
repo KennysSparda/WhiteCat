@@ -15,7 +15,6 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   const [produtos, setProdutos] = useState([]);
   const [totalQuantidade, setTotalQuantidade] = useState(0);
   const [quantidadeDiferentes, setQuantidadeDiferentes] = useState(0);
-  const [showEstoquesList, setShowEstoquesList] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -56,10 +55,6 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleVoltarClick = () => {
-    setShowEstoquesList(true); // Define o estado para mostrar o componente EstoquesList
   };
 
   const handleSortChange = (option) => {

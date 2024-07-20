@@ -327,11 +327,15 @@ const MovimentacoesList = () => {
       const movimentacaoDate = new Date(movimentacao.data);
       const initialDate = dataInicial ? new Date(dataInicial) : null;
       const finalDate = dataFinal ? new Date(dataFinal) : null;
-
-      // Verifica se a movimentação está dentro do intervalo de datas selecionado
+  
+      // Ajusta a data final para incluir todo o dia
+      if (finalDate) {
+        finalDate.setDate(finalDate.getDate() + 1);
+      }
+  
       return (
         (!initialDate || movimentacaoDate >= initialDate) &&
-        (!finalDate || movimentacaoDate <= finalDate) &&
+        (!finalDate || movimentacaoDate < finalDate) &&
         (movimentacao.data.includes(filtroGeral) ||
           movimentacao.nomeproduto.toLowerCase().includes(filtroGeral.toLowerCase()) ||
           movimentacao.nomefuncionario.toLowerCase().includes(filtroGeral.toLowerCase()) ||
@@ -339,13 +343,17 @@ const MovimentacoesList = () => {
       );
     });
   };
+  
 
   useEffect(() => {
     const today = new Date();
+    today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); // Ajusta para o fuso horário local
     const formattedDate = today.toISOString().substr(0, 10); // Formato YYYY-MM-DD
+    console.log(formattedDate);
     setDataInicial(formattedDate);
     setDataFinal(formattedDate);
   }, []);
+  
 
   const filteredMovimentacoes = filterMovimentacoes();
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -435,8 +443,8 @@ const MovimentacoesList = () => {
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
-                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
-                    {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
+                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo === '1' ? 'text-green-500' : 'text-red-500'}`}>
+                    {movimentacao.tipo === '1' ? 'Entrada' : 'Saída'}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
