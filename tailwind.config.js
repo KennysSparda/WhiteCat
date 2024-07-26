@@ -16,6 +16,9 @@ module.exports = {
       textShadow: {
 
         blue: '3px 2px 3px rgba(255,0,0,1)',
+      },
+      boxShadow: {
+        'inline': '0 0 55px #04a',
       }
     },
   },

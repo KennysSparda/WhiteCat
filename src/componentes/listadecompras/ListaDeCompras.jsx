@@ -50,11 +50,21 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
         valorproduto: produto.valorproduto,
         quantidade: 0,
       };
-      setProdutos(prevProdutos => [...prevProdutos, novoProduto]);  // Usando o estado anterior
+
+      setProdutos((prevProdutos) => {
+        // Verifica se o produto já está na lista
+        if (prevProdutos.some(prod => prod.produtoid === novoProduto.produtoid)) {
+          alert('O produto já está na lista de compras');
+          return prevProdutos;  // Retorna a lista sem adicionar o novo produto
+        }
+        // Adiciona o novo produto à lista
+        return [...prevProdutos, novoProduto];
+      });
     } catch (error) {
       console.error('Erro ao adicionar produto à lista de compras:', error);
     }
   };
+
 
   // Remover um produto da lista de compras
   const removerProduto = (index) => {
@@ -86,42 +96,44 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
         <div className="mb-4">
           <ProdutoDropdown onSelectProduto={adicionarProduto} />
         </div>
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2">Nome do Produto</th>
-              <th className="py-2">Quantidade</th>
-              <th className="py-2">Valor Unitário (R$)</th>
-              <th className="py-2">Valor Total (R$)</th>
-              <th className="py-2"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {produtos.map((produto, index) => (
-              <tr key={produto.produtoid}>
-                <td className="py-2 text-center">{produto.nomeproduto}</td>
-                <td className="py-2 text-center">
-                  <input
-                    type="number"
-                    value={produto.quantidade}
-                    onChange={(e) => handleQuantidadeChange(index, e)}
-                    className="w-10 text-right p-1 ml-4"
-                  />
-                </td>
-                <td className="py-2 text-center">{parseFloat(produto.valorproduto).toFixed(2)}</td>
-                <td className="py-2 text-center">{(produto.quantidade * produto.valorproduto).toFixed(2)}</td>
-                <td className="py-2 text-center">
-                  <button
-                    onClick={() => removerProduto(index)}
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                  >
-                    Remover
-                  </button>
-                </td>
+        <div className="max-h-96 overflow-y-auto hover:shadow-inline rounded-xl">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th className="py-2">Nome do Produto</th>
+                <th className="py-2">Quantidade</th>
+                <th className="py-2">Valor Unitário (R$)</th>
+                <th className="py-2">Valor Total (R$)</th>
+                <th className="py-2"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {produtos.map((produto, index) => (
+                <tr key={produto.produtoid}>
+                  <td className="py-2 text-center">{produto.nomeproduto}</td>
+                  <td className="py-2 text-center">
+                    <input
+                      type="number"
+                      value={produto.quantidade}
+                      onChange={(e) => handleQuantidadeChange(index, e)}
+                      className="w-10 text-right p-1 ml-4"
+                    />
+                  </td>
+                  <td className="py-2 text-center">{parseFloat(produto.valorproduto).toFixed(2)}</td>
+                  <td className="py-2 text-center">{(produto.quantidade * produto.valorproduto).toFixed(2)}</td>
+                  <td className="py-2 text-center">
+                    <button
+                      onClick={() => removerProduto(index)}
+                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                      Remover
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <div className="mt-4 flex justify-between">
           <span className="font-semibold">Valor Total: R$ <span className='font-extrabold text-red-500'>{parseFloat(totalValor).toFixed(2)}</span></span>
           <CSVLink data={csvData} filename={`lista-compras-${userId}.csv`} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
