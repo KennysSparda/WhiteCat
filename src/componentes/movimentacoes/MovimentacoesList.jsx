@@ -349,7 +349,6 @@ const MovimentacoesList = () => {
     const today = new Date();
     today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); // Ajusta para o fuso horário local
     const formattedDate = today.toISOString().substr(0, 10); // Formato YYYY-MM-DD
-    console.log(formattedDate);
     setDataInicial(formattedDate);
     setDataFinal(formattedDate);
   }, []);
@@ -443,8 +442,8 @@ const MovimentacoesList = () => {
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
-                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo === '1' ? 'text-green-500' : 'text-red-500'}`}>
-                    {movimentacao.tipo === '1' ? 'Entrada' : 'Saída'}
+                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
+                    {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
