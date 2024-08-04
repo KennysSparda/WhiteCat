@@ -1,196 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import MovimentacoesForm from './MovimentacoesForm';
 
-const MovimentacoesSkeleton = () => {
+const SkeletonRow = () => (
+  <tr className="animate-pulse">
+    {Array.from({ length: 7 }).map((_, index) => (
+      <td key={index} className="border border-gray-300 px-4 py-2 text-center">
+        <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
+      </td>
+    ))}
+  </tr>
+);
+
+const MovimentacoesSkeleton = ({ rowCount = 10 }) => {
   return (
     <>
-      <tr className="animate-pulse">
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
-      <tr className="animate-pulse">
-      <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-        <td className="border border-gray-300 px-4 py-2 text-center">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto"></div>
-        </td>
-      </tr>
+      {Array.from({ length: rowCount }).map((_, index) => (
+        <SkeletonRow key={index} />
+      ))}
     </>
   );
 };
+
 
 const MovimentacoesList = () => {
   const [movimentacoes, setMovimentacoes] = useState([]);
@@ -426,27 +256,27 @@ const MovimentacoesList = () => {
               <th className="border border-gray-300 px-4 py-2">ID</th>
               <th className="border border-gray-300 px-4 py-2">Data</th>
               <th className="border border-gray-300 px-4 py-2">Produto</th>
-              <th className="border border-gray-300 px-4 py-2">Funcionário</th>
               <th className="border border-gray-300 px-4 py-2">Tipo</th>
               <th className="border border-gray-300 px-4 py-2">Quantidade</th>
               <th className="border border-gray-300 px-4 py-2">Estoque</th>
+              <th className="border border-gray-300 px-4 py-2">Funcionário</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
-              <MovimentacoesSkeleton />
+              <MovimentacoesSkeleton rowCount={8} />
             ) : (
               currentItems.map((movimentacao) => (
                 <tr key={movimentacao.id}>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
+            <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
                   <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
                     {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
                 </tr>
               ))
             )}
