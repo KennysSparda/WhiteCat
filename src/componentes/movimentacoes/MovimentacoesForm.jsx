@@ -91,7 +91,7 @@ const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
               value={data}
               onChange={(e) => setData(e.target.value)}
               className="w-full p-2 border rounded"
-              required
+              readOnly
             />
           </div>
           <div className="mb-4">

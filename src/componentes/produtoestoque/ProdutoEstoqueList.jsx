@@ -101,7 +101,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
         <input
           type="text"
           placeholder="Buscar..."
-          className="border p-2 rounded w-1/3 w-1/4 m-4"
+          className="border p-2 rounded w-1/3 m-4"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
