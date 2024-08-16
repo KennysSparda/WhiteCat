@@ -60,6 +60,7 @@ const MovimentacoesList = () => {
       }
       const data = await response.json();
       setMovimentacoes(data);
+      console.log(data)
     } catch (error) {
       console.error('Error fetching movimentacoes:', error);
     } finally {
@@ -271,8 +272,8 @@ const MovimentacoesList = () => {
             <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
-                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.fk_tipomovimentacoes_id === 1 ? 'text-green-500' : 'text-red-500'}`}>
-                    {movimentacao.fk_tipomovimentacoes_id === 1 ? 'Entrada' : 'Saída'}
+                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo == 1 ? 'text-green-500' : 'text-red-500'}`}>
+                    {movimentacao.tipo == 1 ? 'Entrada' : 'Saída'}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
