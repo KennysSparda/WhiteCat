@@ -189,9 +189,20 @@ const EstoquesList = () => {
           {isFormVisible && (
             <EstoqueForm
               estoque={currentEstoque}
+              onSubmit={(newEstoque) => {
+                if (currentEstoque) {
+                  setEstoques(prevEstoques =>
+                    prevEstoques.map(e => e.id === newEstoque.id ? newEstoque : e)
+                  );
+                } else {
+                  setEstoques(prevEstoques => [...prevEstoques, newEstoque]);
+                }
+                setIsFormVisible(false);
+                setCurrentEstoque(null);
+              }}
               onClose={() => {
                 setIsFormVisible(false);
-                fetchEstoques();
+                setCurrentEstoque(null);
               }}
             />
           )}

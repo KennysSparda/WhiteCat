@@ -54,6 +54,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
 
       const updatedEstoque = await response.json();
       onSubmit(updatedEstoque);
+      onClose(); // Close the form after submission
     } catch (error) {
       console.error('Error sending stock:', error);
     }
@@ -62,7 +63,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">{estoque ? 'Atualizar Estoque' : 'Adicionar Estoque'}</h2>
+        <h2 className="text-2xl font-bold mb-4">{estoque ? 'Update Stock' : 'Add Stock'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Nome</label>
