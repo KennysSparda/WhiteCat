@@ -15,15 +15,32 @@ const PoucoEstoqueNotificacao = ({ products, onClose }) => {
   };
 
   const handleOpenListaCompras = () => {
-   setShowListaDeCompras(true); // Mostra o ListaCompras ao clicar no ícone de ListaCompras
+    setShowListaDeCompras(true); // Mostra o ListaCompras ao clicar no ícone de ListaCompras
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50" onClick={handleBackdropClick}>
-      <div className="bg-white p-4 rounded shadow-md max-w-lg w-full md:max-w-screen-md lg:max-w-screen-lg relative">
-        <button className="absolute top-0 right-0 m-4 text-gray-600 hover:text-gray-800" onClick={handleClose}>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+    <div
+      className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50"
+      onClick={handleBackdropClick}
+    >
+      <div className="bg-white p-4 rounded shadow-md max-w-lg w-full md:max-w-screen-md lg:max-w-screen-lg relative max-h-[80vh] overflow-y-auto">
+        <button
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+          onClick={handleClose}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
           </svg>
         </button>
         <h2 className="text-xl font-semibold mb-4">Produtos com Estoque Baixo</h2>
@@ -38,12 +55,21 @@ const PoucoEstoqueNotificacao = ({ products, onClose }) => {
           ))}
         </ul>
         <div className="mt-4 flex justify-end">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onClick={handleOpenListaCompras}>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            onClick={handleOpenListaCompras}
+          >
             Adicionar a Lista de Compras
           </button>
         </div>
       </div>
-      {showListaDeCompras && <ListaDeCompras userId={null} produtosSelecionados={products} onClose={() => setShowListaDeCompras(false)} />}
+      {showListaDeCompras && (
+        <ListaDeCompras
+          userId={null}
+          produtosSelecionados={products}
+          onClose={() => setShowListaDeCompras(false)}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
-
 import ProdutoDropdown from '../Dropdown/ProdutoDropdown';
 
 const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
@@ -27,13 +26,13 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
       total += parseFloat(produto.quantidade) * parseFloat(produto.valorproduto);
     });
     setTotalValor(total);
-  }, [produtos]);  // Aqui produtos é uma dependência
+  }, [produtos]);
 
   // Atualiza a quantidade do produto quando o usuário modificar o input
   const handleQuantidadeChange = (index, event) => {
     const novosProdutos = [...produtos];
     novosProdutos[index].quantidade = parseInt(event.target.value, 10);
-    setProdutos(novosProdutos);  // Atualizando o estado aqui
+    setProdutos(novosProdutos);
   };
 
   // Adicionar um novo produto à lista de compras
@@ -52,19 +51,16 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
       };
 
       setProdutos((prevProdutos) => {
-        // Verifica se o produto já está na lista
         if (prevProdutos.some(prod => prod.produtoid === novoProduto.produtoid)) {
           alert('O produto já está na lista de compras');
-          return prevProdutos;  // Retorna a lista sem adicionar o novo produto
+          return prevProdutos;
         }
-        // Adiciona o novo produto à lista
         return [...prevProdutos, novoProduto];
       });
     } catch (error) {
       console.error('Erro ao adicionar produto à lista de compras:', error);
     }
   };
-
 
   // Remover um produto da lista de compras
   const removerProduto = (index) => {
@@ -86,17 +82,31 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-4 rounded shadow-md max-w-lg w-full md:max-w-screen-md lg:max-w-screen-lg relative">
-        <button className="absolute top-0 right-0 m-4 text-gray-600 hover:text-gray-800" onClick={onClose}>
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+      <div className="bg-white p-4 rounded shadow-md max-w-lg w-full md:max-w-screen-md lg:max-w-screen-lg relative max-h-[80vh] overflow-y-auto">
+        <button
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+          onClick={onClose}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
           </svg>
         </button>
         <h2 className="text-xl font-semibold mb-4">Lista de Compras</h2>
         <div className="mb-4">
           <ProdutoDropdown onSelectProduto={adicionarProduto} />
         </div>
-        <div className="max-h-96 overflow-y-auto hover:shadow-inline rounded-xl">
+        <div className="max-h-[60vh] overflow-y-auto">
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -136,7 +146,11 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
         </div>
         <div className="mt-4 flex justify-between">
           <span className="font-semibold">Valor Total: R$ <span className='font-extrabold text-red-500'>{parseFloat(totalValor).toFixed(2)}</span></span>
-          <CSVLink data={csvData} filename={`lista-compras-${userId}.csv`} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          <CSVLink
+            data={csvData}
+            filename={`lista-compras-${userId}.csv`}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
             Exportar CSV
           </CSVLink>
         </div>
