@@ -60,7 +60,6 @@ const MovimentacoesList = () => {
       }
       const data = await response.json();
       setMovimentacoes(data);
-      console.log(data)
     } catch (error) {
       console.error('Error fetching movimentacoes:', error);
     } finally {
@@ -72,15 +71,15 @@ const MovimentacoesList = () => {
     setCurrentMovimentacao(null);
     setIsFormVisible(true);
   };
-
+  
   const handleSubmit = async (movimentacaoData) => {
     try {
       const url = currentMovimentacao
         ? `${process.env.NEXT_PUBLIC_URL}/movimentacoes/${currentMovimentacao.id}`
         : `${process.env.NEXT_PUBLIC_URL}/movimentacoes`;
-
+  
       const method = currentMovimentacao ? 'PUT' : 'POST';
-
+  
       const response = await fetch(url, {
         method: method,
         headers: {
@@ -88,15 +87,17 @@ const MovimentacoesList = () => {
         },
         body: JSON.stringify(movimentacaoData),
       });
-
+  
+      const result = await response.json();
+  
       if (!response.ok) {
-        throw new Error('Failed to submit movimentacao');
+        throw new Error(result.message || 'Failed to submit movimentacao');
       }
-
-      fetchMovimentacoes();
-      setIsFormVisible(false);
+  
+      return result; // Retorna a resposta para ser usada no handleSubmit do formulário
     } catch (error) {
       console.error('Error submitting movimentacao:', error);
+      return { success: false, message: error.message };
     }
   };
 
@@ -271,10 +272,10 @@ const MovimentacoesList = () => {
                 <tr key={movimentacao.id}>
             <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
                   <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo == 1 ? 'text-green-500' : 'text-red-500'}`}>
                     {movimentacao.tipo == 1 ? 'Entrada' : 'Saída'}
                   </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
                   <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
@@ -285,6 +286,7 @@ const MovimentacoesList = () => {
         </table>
       </div>
       <div className="mt-4 flex justify-center items-center">
+        {/* Botões de Paginação */}
         <button
           className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
           onClick={firstPage}
@@ -322,6 +324,7 @@ const MovimentacoesList = () => {
           onSubmit={handleSubmit}
           onClose={() => setIsFormVisible(false)}
           movimentacao={currentMovimentacao}
+          fetchMovimentacoes={fetchMovimentacoes} 
         />
       )}
     </div>

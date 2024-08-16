@@ -18,7 +18,7 @@ const GetToday = () => {
   return formattedDate;
 };
 
-const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
+const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) => {
   const [data, setData] = useState(GetToday());
   const [quantidade, setQuantidade] = useState('');
   const [tipo, setTipo] = useState('entrada');
@@ -47,32 +47,36 @@ const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const movimentacaoData = {
       Data: data,
       Quantidade: parseInt(quantidade),
-      fk_Tipo_ID: tipo === 'entrada' ? 1 : 2,
+      Tipo: tipo === 'entrada' ? 1 : 2,
       fk_Produto_ID: parseInt(produtoID),
       fk_Funcionario_ID: parseInt(funcionarioID),
       fk_Estoque_ID: parseInt(estoqueID),
     };
-
+  
     try {
       const response = await onSubmit(movimentacaoData);
-      if (!response || !response.success) {
-        if (response && response.message === 'Quantidade insuficiente no estoque.') {
+      
+      // Verifica a resposta da API
+      if (response && !response.success) {
+        if (response.message === 'Quantidade insuficiente no estoque.') {
           setErrorMessage('Quantidade insuficiente no estoque.');
         } else {
-          setErrorMessage(response ? response.message : 'Erro desconhecido.');
+          setErrorMessage(response.message || 'Erro desconhecido.');
         }
       } else {
         setErrorMessage('');
-        onClose(); // Fechar o formulário em caso de sucesso
+        onClose();
+        fetchMovimentacoes();
       }
     } catch (error) {
       setErrorMessage('Erro ao enviar os dados: ' + error.message);
     }
   };
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -92,16 +96,6 @@ const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
               onChange={(e) => setData(e.target.value)}
               className="w-full p-2 border rounded"
               readOnly
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Quantidade</label>
-            <input
-              type="number"
-              value={quantidade}
-              onChange={(e) => setQuantidade(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
             />
           </div>
           <div className="mb-4">
@@ -137,10 +131,13 @@ const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Funcionário</label>
-            <FuncionarioDropdown
-              onSelectFuncionario={setFuncionarioID}
-              selectedFuncionarioID={funcionarioID}
+            <label className="block text-gray-700">Quantidade</label>
+            <input
+              type="number"
+              value={quantidade}
+              onChange={(e) => setQuantidade(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
             />
           </div>
           <div className="mb-4">
@@ -148,6 +145,13 @@ const MovimentacoesForm = ({ product, onSubmit, onClose }) => {
             <EstoqueDropdown
               onSelectEstoque={setEstoqueID}
               selectedEstoqueID={estoqueID}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Funcionário</label>
+            <FuncionarioDropdown
+              onSelectFuncionario={setFuncionarioID}
+              selectedFuncionarioID={funcionarioID}
             />
           </div>
           <div className="flex justify-end">
