@@ -14,7 +14,7 @@ const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
       setUsuario(funcionario.usuario || '');
       // Não preencha a senha por segurança
       setSenha('');
-      setNivelAcesso(funcionario.nivelAcesso || 0);
+      setNivelAcesso(funcionario.nivelacesso || 0);
     } else {
       // Limpar os campos ao adicionar um novo funcionário
       setNome('');
