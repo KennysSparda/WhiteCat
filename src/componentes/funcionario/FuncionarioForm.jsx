@@ -1,66 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
-  const [nome, setNome] = useState('');
-  const [cargo, setCargo] = useState('');
-  const [usuario, setUsuario] = useState('');
-  const [senha, setSenha] = useState('');
+  const [nome, setNome] = useState("");
+  const [cargo, setCargo] = useState("");
+  const [usuario, setUsuario] = useState("");
+  const [senha, setSenha] = useState("");
   const [nivelacesso, setNivelAcesso] = useState(1);
 
   useEffect(() => {
     if (funcionario) {
-      setNome(funcionario.nome || '');
-      setCargo(funcionario.cargo || '');
-      setUsuario(funcionario.usuario || '');
+      setNome(funcionario.nome || "");
+      setCargo(funcionario.cargo || "");
+      setUsuario(funcionario.usuario || "");
       // Não preencha a senha por segurança
-      setSenha('');
+      setSenha("");
       setNivelAcesso(funcionario.nivelacesso || 0);
     } else {
       // Limpar os campos ao adicionar um novo funcionário
-      setNome('');
-      setCargo('');
-      setUsuario('');
-      setSenha('');
+      setNome("");
+      setCargo("");
+      setUsuario("");
+      setSenha("");
       setNivelAcesso(0);
     }
   }, [funcionario]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const funcionarioData = {
       nome,
       cargo,
       usuario,
       senha: senha || undefined,
-      nivelacesso
+      nivelacesso,
     };
-  
+
     try {
       let response;
       if (funcionario) {
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario/${funcionario.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
+        response = await fetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/${funcionario.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(funcionarioData),
           },
-          body: JSON.stringify(funcionarioData),
-        });
+        );
       } else {
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        response = await fetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(funcionarioData),
           },
-          body: JSON.stringify(funcionarioData),
-        });
+        );
       }
-  
+
       if (!response.ok) {
-        const errorMessage = funcionario ? 'Falha ao atualizar funcionário' : 'Falha ao adicionar funcionário';
+        const errorMessage = funcionario
+          ? "Falha ao atualizar funcionário"
+          : "Falha ao adicionar funcionário";
         const errorData = await response.json();
-        if (errorData.message === 'Usuário já existe') {
-          alert('Usuário já existe. Escolha outro usuário.');
+        if (errorData.message === "Usuário já existe") {
+          alert("Usuário já existe. Escolha outro usuário.");
         } else {
           throw new Error(errorMessage);
         }
@@ -69,15 +77,17 @@ const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
         onClose();
       }
     } catch (error) {
-      console.error('Erro ao enviar funcionário:', error);
-      alert('Erro ao enviar funcionário: ' + error.message);
+      console.error("Erro ao enviar funcionário:", error);
+      alert("Erro ao enviar funcionário: " + error.message);
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">{funcionario ? 'Atualizar Funcionário' : 'Adicionar Funcionário'}</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {funcionario ? "Atualizar Funcionário" : "Adicionar Funcionário"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Nome</label>
@@ -162,7 +172,7 @@ const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded"
             >
-              {funcionario ? 'Atualizar' : 'Adicionar'}
+              {funcionario ? "Atualizar" : "Adicionar"}
             </button>
           </div>
         </form>

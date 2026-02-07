@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const ProductForm = ({ product, fetchProducts, onClose }) => {
-  const [nome, setNome] = useState('');
-  const [valor, setValor] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [nome, setNome] = useState("");
+  const [valor, setValor] = useState("");
+  const [descricao, setDescricao] = useState("");
 
   useEffect(() => {
     if (product) {
-      setNome(product.nome || '');
-      setValor(product.valor || '');
-      setDescricao(product.descricao || '');
+      setNome(product.nome || "");
+      setValor(product.valor || "");
+      setDescricao(product.descricao || "");
     } else {
-      setNome('');
-      setValor('');
-      setDescricao('');
+      setNome("");
+      setValor("");
+      setDescricao("");
     }
   }, [product]);
 
@@ -30,33 +30,40 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
       let response;
       if (product) {
         // Atualizando produto existente
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto/${product.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
+        response = await fetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto/${product.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
           },
-          body: JSON.stringify(productData),
-        });
+        );
       } else {
         // Adicionando novo produto
-        response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        response = await fetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
           },
-          body: JSON.stringify(productData),
-        });
+        );
       }
 
       if (!response.ok) {
-        throw new Error(product ? 'Failed to update product' : 'Failed to add product');
+        throw new Error(
+          product ? "Failed to update product" : "Failed to add product",
+        );
       }
 
       fetchProducts(); // Atualiza a lista de produtos após a operação
       onClose(); // Fecha o formulário após a conclusão
-
     } catch (error) {
-      console.error('Error submitting product:', error);
+      console.error("Error submitting product:", error);
       // Exibir mensagem de erro para o usuário, por exemplo:
       // setErrorMessage('Erro ao salvar produto. Verifique os campos e tente novamente.');
     }
@@ -65,7 +72,9 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">{product ? 'Atualizar Material' : 'Adicionar Material'}</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {product ? "Atualizar Material" : "Adicionar Material"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Nome</label>
@@ -108,7 +117,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded"
             >
-              {product ? 'Atualizar' : 'Adicionar'}
+              {product ? "Atualizar" : "Adicionar"}
             </button>
           </div>
         </form>

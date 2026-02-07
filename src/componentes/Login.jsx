@@ -1,25 +1,36 @@
 // components/Login.js
-import { useState } from 'react';
+import { useState } from "react";
 
-const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponent }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const Login = ({
+  setUserId,
+  setUserAccessLevel,
+  onSuccessLogin,
+  onChangeComponent,
+}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      console.log(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/login`,
+      );
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ usuario: username, senha: password }),
         },
-        body: JSON.stringify({ usuario: username, senha: password }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Usuário ou senha incorretos');
+        throw new Error("Usuário ou senha incorretos");
       }
 
       const data = await response.json();
@@ -28,9 +39,9 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
 
       // Redirecionar para o home após login bem-sucedido
       onSuccessLogin();
-      onChangeComponent('home')
+      onChangeComponent("home");
     } catch (error) {
-      console.error('Erro ao fazer login:', error.message);
+      console.error("Erro ao fazer login:", error.message);
       setError(error.message); // Exibir mensagem de erro
     }
   };
@@ -39,11 +50,7 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
     <div className="relative h-screen overflow-hidden bg-black">
       {/* Logo */}
       <div className=" top-8 left-0 right-0 z-10 flex justify-center">
-        <img
-          className="mt-20 w-72 "
-          src="/img/logo.jpeg"
-          alt="Logo"
-        />
+        <img className="mt-20 w-72 " src="/img/logo.jpeg" alt="Logo" />
       </div>
 
       {/* Formulário de login */}
@@ -51,7 +58,12 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
             <input
               type="text"
               id="username"
@@ -62,7 +74,12 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -87,8 +104,6 @@ const Login = ({ setUserId, setUserAccessLevel, onSuccessLogin, onChangeComponen
           </div>
         </form>
       </div>
-
-
     </div>
   );
 };

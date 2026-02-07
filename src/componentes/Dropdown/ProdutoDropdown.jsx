@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const ProdutoDropdown = ({ onSelectProduto, selectedProdutoID }) => {
   const [produtos, setProdutos] = useState([]);
@@ -9,14 +9,16 @@ const ProdutoDropdown = ({ onSelectProduto, selectedProdutoID }) => {
 
   const fetchProdutos = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto`);
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto`,
+      );
       if (!response.ok) {
-        throw new Error('Erro ao buscar produtos');
+        throw new Error("Erro ao buscar produtos");
       }
       const data = await response.json();
       setProdutos(data);
     } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
+      console.error("Erro ao buscar produtos:", error);
     }
   };
 
@@ -28,7 +30,7 @@ const ProdutoDropdown = ({ onSelectProduto, selectedProdutoID }) => {
       required
     >
       <option value="">Selecione um produto</option>
-      {produtos.map(produto => (
+      {produtos.map((produto) => (
         <option key={produto.id} value={produto.id}>
           {produto.nome}
         </option>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { CSVLink } from 'react-csv';
-import ProdutoDropdown from '../Dropdown/ProdutoDropdown';
+import React, { useState, useEffect } from "react";
+import { CSVLink } from "react-csv";
+import ProdutoDropdown from "../Dropdown/ProdutoDropdown";
 
 const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
   const [totalValor, setTotalValor] = useState(0);
@@ -9,7 +9,7 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
   // Iniciar produtos com quantidade 0 e apenas dados necessários
   useEffect(() => {
     if (produtosSelecionados.length > 0) {
-      const produtosIniciais = produtosSelecionados.map(produto => ({
+      const produtosIniciais = produtosSelecionados.map((produto) => ({
         produtoid: produto.produtoid,
         nomeproduto: produto.nomeproduto,
         valorproduto: produto.valorproduto,
@@ -22,8 +22,9 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
   // Calcular o valor total do carrinho em tempo real
   useEffect(() => {
     let total = 0;
-    produtos.forEach(produto => {
-      total += parseFloat(produto.quantidade) * parseFloat(produto.valorproduto);
+    produtos.forEach((produto) => {
+      total +=
+        parseFloat(produto.quantidade) * parseFloat(produto.valorproduto);
     });
     setTotalValor(total);
   }, [produtos]);
@@ -38,9 +39,11 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
   // Adicionar um novo produto à lista de compras
   const adicionarProduto = async (produtoId) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/produto/${produtoId}`);
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto/${produtoId}`,
+      );
       if (!response.ok) {
-        throw new Error('Erro ao buscar detalhes do produto');
+        throw new Error("Erro ao buscar detalhes do produto");
       }
       const [produto] = await response.json();
       const novoProduto = {
@@ -51,14 +54,16 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
       };
 
       setProdutos((prevProdutos) => {
-        if (prevProdutos.some(prod => prod.produtoid === novoProduto.produtoid)) {
-          alert('O produto já está na lista de compras');
+        if (
+          prevProdutos.some((prod) => prod.produtoid === novoProduto.produtoid)
+        ) {
+          alert("O produto já está na lista de compras");
           return prevProdutos;
         }
         return [...prevProdutos, novoProduto];
       });
     } catch (error) {
-      console.error('Erro ao adicionar produto à lista de compras:', error);
+      console.error("Erro ao adicionar produto à lista de compras:", error);
     }
   };
 
@@ -71,13 +76,13 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
 
   // Estrutura de dados para o CSV
   const csvData = [
-    ...produtos.map(produto => ({
+    ...produtos.map((produto) => ({
       Nome: produto.nomeproduto,
       Quantidade: produto.quantidade,
-      'Preço Unitário': parseFloat(produto.valorproduto).toFixed(2),
-      'Valor Total': (produto.quantidade * produto.valorproduto).toFixed(2)
+      "Preço Unitário": parseFloat(produto.valorproduto).toFixed(2),
+      "Valor Total": (produto.quantidade * produto.valorproduto).toFixed(2),
     })),
-    { Nome: 'Total', 'Valor Total': totalValor.toFixed(2) }
+    { Nome: "Total", "Valor Total": totalValor.toFixed(2) },
   ];
 
   return (
@@ -129,8 +134,12 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
                       className="w-10 text-right p-1 ml-4"
                     />
                   </td>
-                  <td className="py-2 text-center">{parseFloat(produto.valorproduto).toFixed(2)}</td>
-                  <td className="py-2 text-center">{(produto.quantidade * produto.valorproduto).toFixed(2)}</td>
+                  <td className="py-2 text-center">
+                    {parseFloat(produto.valorproduto).toFixed(2)}
+                  </td>
+                  <td className="py-2 text-center">
+                    {(produto.quantidade * produto.valorproduto).toFixed(2)}
+                  </td>
                   <td className="py-2 text-center">
                     <button
                       onClick={() => removerProduto(index)}
@@ -145,7 +154,12 @@ const ListaCompras = ({ userId, produtosSelecionados = [], onClose }) => {
           </table>
         </div>
         <div className="mt-4 flex justify-between">
-          <span className="font-semibold">Valor Total: R$ <span className='font-extrabold text-red-500'>{parseFloat(totalValor).toFixed(2)}</span></span>
+          <span className="font-semibold">
+            Valor Total: R${" "}
+            <span className="font-extrabold text-red-500">
+              {parseFloat(totalValor).toFixed(2)}
+            </span>
+          </span>
           <CSVLink
             data={csvData}
             filename={`lista-compras-${userId}.csv`}

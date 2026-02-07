@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import MovimentacoesForm from './MovimentacoesForm';
+import React, { useState, useEffect } from "react";
+import MovimentacoesForm from "./MovimentacoesForm";
 
 const SkeletonRow = () => (
   <tr className="animate-pulse">
@@ -21,7 +21,6 @@ const MovimentacoesSkeleton = ({ rowCount = 10 }) => {
   );
 };
 
-
 const MovimentacoesList = () => {
   const [movimentacoes, setMovimentacoes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,16 +30,16 @@ const MovimentacoesList = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [filtroGeral, setFiltroGeral] = useState('');
-  const [dataInicial, setDataInicial] = useState('');
-  const [dataFinal, setDataFinal] = useState('');
+  const [filtroGeral, setFiltroGeral] = useState("");
+  const [dataInicial, setDataInicial] = useState("");
+  const [dataFinal, setDataFinal] = useState("");
 
   useEffect(() => {
     fetchMovimentacoes();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -54,14 +53,16 @@ const MovimentacoesList = () => {
 
   const fetchMovimentacoes = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/movimentacoes`);
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch movimentacoes');
+        throw new Error("Failed to fetch movimentacoes");
       }
       const data = await response.json();
       setMovimentacoes(data);
     } catch (error) {
-      console.error('Error fetching movimentacoes:', error);
+      console.error("Error fetching movimentacoes:", error);
     } finally {
       setIsLoading(false);
     }
@@ -71,32 +72,32 @@ const MovimentacoesList = () => {
     setCurrentMovimentacao(null);
     setIsFormVisible(true);
   };
-  
+
   const handleSubmit = async (movimentacaoData) => {
     try {
       const url = currentMovimentacao
-        ? `${process.env.NEXT_PUBLIC_URL}/movimentacoes/${currentMovimentacao.id}`
-        : `${process.env.NEXT_PUBLIC_URL}/movimentacoes`;
-  
-      const method = currentMovimentacao ? 'PUT' : 'POST';
-  
+        ? `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes/${currentMovimentacao.id}`
+        : `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`;
+
+      const method = currentMovimentacao ? "PUT" : "POST";
+
       const response = await fetch(url, {
         method: method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(movimentacaoData),
       });
-  
+
       const result = await response.json();
-  
+
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit movimentacao');
+        throw new Error(result.message || "Failed to submit movimentacao");
       }
-  
+
       return result; // Retorna a resposta para ser usada no handleSubmit do formulário
     } catch (error) {
-      console.error('Error submitting movimentacao:', error);
+      console.error("Error submitting movimentacao:", error);
       return { success: false, message: error.message };
     }
   };
@@ -106,7 +107,7 @@ const MovimentacoesList = () => {
     const match = dateString.match(regex);
 
     if (!match) {
-      throw new Error('Invalid date format');
+      throw new Error("Invalid date format");
     }
 
     const [_, year, month, day] = match;
@@ -116,7 +117,11 @@ const MovimentacoesList = () => {
 
   const calculateTotalPages = () => {
     const filteredMovimentacoes = filterMovimentacoes();
-    const totalPagesCount = Math.ceil(filteredMovimentacoes.length / itemsPerPage === 0 ? 1 : filteredMovimentacoes.length / itemsPerPage);
+    const totalPagesCount = Math.ceil(
+      filteredMovimentacoes.length / itemsPerPage === 0
+        ? 1
+        : filteredMovimentacoes.length / itemsPerPage,
+    );
     setTotalPages(totalPagesCount > 0 ? totalPagesCount : 1);
     if (currentPage > totalPagesCount) {
       setCurrentPage(totalPagesCount);
@@ -159,23 +164,28 @@ const MovimentacoesList = () => {
       const movimentacaoDate = new Date(movimentacao.data);
       const initialDate = dataInicial ? new Date(dataInicial) : null;
       const finalDate = dataFinal ? new Date(dataFinal) : null;
-  
+
       // Ajusta a data final para incluir todo o dia
       if (finalDate) {
         finalDate.setDate(finalDate.getDate() + 1);
       }
-  
+
       return (
         (!initialDate || movimentacaoDate >= initialDate) &&
         (!finalDate || movimentacaoDate < finalDate) &&
         (movimentacao.data.includes(filtroGeral) ||
-          movimentacao.nomeproduto.toLowerCase().includes(filtroGeral.toLowerCase()) ||
-          movimentacao.nomefuncionario.toLowerCase().includes(filtroGeral.toLowerCase()) ||
-          movimentacao.nomeestoque.toLowerCase().includes(filtroGeral.toLowerCase()))
+          movimentacao.nomeproduto
+            .toLowerCase()
+            .includes(filtroGeral.toLowerCase()) ||
+          movimentacao.nomefuncionario
+            .toLowerCase()
+            .includes(filtroGeral.toLowerCase()) ||
+          movimentacao.nomeestoque
+            .toLowerCase()
+            .includes(filtroGeral.toLowerCase()))
       );
     });
   };
-  
 
   useEffect(() => {
     const today = new Date();
@@ -184,12 +194,14 @@ const MovimentacoesList = () => {
     setDataInicial(formattedDate);
     setDataFinal(formattedDate);
   }, []);
-  
 
   const filteredMovimentacoes = filterMovimentacoes();
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredMovimentacoes.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredMovimentacoes.slice(
+    indexOfFirstItem,
+    indexOfLastItem,
+  );
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -223,7 +235,9 @@ const MovimentacoesList = () => {
         </button>
         <div>
           <div className="flex items-center ">
-            <label htmlFor="filtroGeral" className="ml-4 mr-2">Buscar:</label>
+            <label htmlFor="filtroGeral" className="ml-4 mr-2">
+              Buscar:
+            </label>
             <input
               type="text"
               id="filtroGeral"
@@ -231,7 +245,9 @@ const MovimentacoesList = () => {
               onChange={handleFilterChange}
               className="border border-gray-300 px-2 py-1 rounded"
             />
-            <label htmlFor="dataInicial" className=" ml-4 mr-2">Data Inicial:</label>
+            <label htmlFor="dataInicial" className=" ml-4 mr-2">
+              Data Inicial:
+            </label>
             <input
               type="date"
               id="dataInicial"
@@ -240,7 +256,9 @@ const MovimentacoesList = () => {
               className="border border-gray-300 px-2 py-1 rounded"
             />
 
-            <label htmlFor="dataFinal" className="ml-4 mr-2">Data Final:</label>
+            <label htmlFor="dataFinal" className="ml-4 mr-2">
+              Data Final:
+            </label>
             <input
               type="date"
               id="dataFinal"
@@ -270,15 +288,29 @@ const MovimentacoesList = () => {
             ) : (
               currentItems.map((movimentacao) => (
                 <tr key={movimentacao.id}>
-            <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.id}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{formatDate(movimentacao.data)}</td>
-                  <td className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo == 1 ? 'text-green-500' : 'text-red-500'}`}>
-                    {movimentacao.tipo == 1 ? 'Entrada' : 'Saída'}
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {movimentacao.id}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeproduto}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.quantidade}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomeestoque}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">{movimentacao.nomefuncionario}</td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {formatDate(movimentacao.data)}
+                  </td>
+                  <td
+                    className={`border border-gray-300 px-4 py-2 text-center ${movimentacao.tipo == 1 ? "text-green-500" : "text-red-500"}`}
+                  >
+                    {movimentacao.tipo == 1 ? "Entrada" : "Saída"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {movimentacao.nomeproduto}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {movimentacao.quantidade}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {movimentacao.nomeestoque}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {movimentacao.nomefuncionario}
+                  </td>
                 </tr>
               ))
             )}
@@ -288,14 +320,14 @@ const MovimentacoesList = () => {
       <div className="mt-4 flex justify-center items-center">
         {/* Botões de Paginação */}
         <button
-          className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          className={`px-3 py-1 rounded ${currentPage === 1 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white"}`}
           onClick={firstPage}
           disabled={currentPage === 1}
         >
           Primeira
         </button>
         <button
-          className={`ml-2 px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          className={`ml-2 px-3 py-1 rounded ${currentPage === 1 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white"}`}
           onClick={prevPage}
           disabled={currentPage === 1}
         >
@@ -305,14 +337,14 @@ const MovimentacoesList = () => {
           Página {currentPage} de {totalPages}
         </span>
         <button
-          className={`px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          className={`px-3 py-1 rounded ${currentPage === totalPages ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white"}`}
           onClick={nextPage}
           disabled={currentPage === totalPages}
         >
           Próxima
         </button>
         <button
-          className={`ml-2 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          className={`ml-2 px-3 py-1 rounded ${currentPage === totalPages ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white"}`}
           onClick={lastPage}
           disabled={currentPage === totalPages}
         >
@@ -324,7 +356,7 @@ const MovimentacoesList = () => {
           onSubmit={handleSubmit}
           onClose={() => setIsFormVisible(false)}
           movimentacao={currentMovimentacao}
-          fetchMovimentacoes={fetchMovimentacoes} 
+          fetchMovimentacoes={fetchMovimentacoes}
         />
       )}
     </div>

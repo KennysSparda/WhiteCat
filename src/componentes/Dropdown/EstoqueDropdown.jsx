@@ -1,5 +1,5 @@
 // EstoqueDropdown.jsx (implementação semelhante ao FuncionarioDropdown)
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const EstoqueDropdown = ({ onSelectEstoque, selectedEstoqueID }) => {
   const [estoques, setEstoques] = useState([]);
@@ -10,14 +10,16 @@ const EstoqueDropdown = ({ onSelectEstoque, selectedEstoqueID }) => {
 
   const fetchEstoques = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/estoque`);
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque`,
+      );
       if (!response.ok) {
-        throw new Error('Erro ao buscar estoques');
+        throw new Error("Erro ao buscar estoques");
       }
       const data = await response.json();
       setEstoques(data);
     } catch (error) {
-      console.error('Erro ao buscar estoques:', error);
+      console.error("Erro ao buscar estoques:", error);
     }
   };
 
@@ -29,7 +31,7 @@ const EstoqueDropdown = ({ onSelectEstoque, selectedEstoqueID }) => {
       required
     >
       <option value="">Selecione um estoque</option>
-      {estoques.map(estoque => (
+      {estoques.map((estoque) => (
         <option key={estoque.id} value={estoque.id}>
           {estoque.nome}
         </option>

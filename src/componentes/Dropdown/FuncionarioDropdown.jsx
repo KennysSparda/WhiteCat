@@ -1,7 +1,10 @@
 // FuncionariosDropdown.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const FuncionariosDropdown = ({ onSelectFuncionario, selectedFuncionarioID }) => {
+const FuncionariosDropdown = ({
+  onSelectFuncionario,
+  selectedFuncionarioID,
+}) => {
   const [funcionarios, setFuncionarios] = useState([]);
 
   useEffect(() => {
@@ -10,14 +13,16 @@ const FuncionariosDropdown = ({ onSelectFuncionario, selectedFuncionarioID }) =>
 
   const fetchFuncionarios = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/funcionario`);
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario`,
+      );
       if (!response.ok) {
-        throw new Error('Erro ao buscar funcionários');
+        throw new Error("Erro ao buscar funcionários");
       }
       const data = await response.json();
       setFuncionarios(data);
     } catch (error) {
-      console.error('Erro ao buscar funcionários:', error);
+      console.error("Erro ao buscar funcionários:", error);
     }
   };
 
@@ -29,7 +34,7 @@ const FuncionariosDropdown = ({ onSelectFuncionario, selectedFuncionarioID }) =>
       required
     >
       <option value="">Selecione um funcionário</option>
-      {funcionarios.map(funcionario => (
+      {funcionarios.map((funcionario) => (
         <option key={funcionario.id} value={funcionario.id}>
           {funcionario.nome}
         </option>
