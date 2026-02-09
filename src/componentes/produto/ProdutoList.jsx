@@ -81,7 +81,7 @@ const ProductList = () => {
   );
 
   return (
-    <div>
+    <div className="m-2">
       <h2 className="text-2xl font-bold mb-4">Lista de Materiais</h2>
       <div className="flex items-center space-x-4 mb-4">
         <button

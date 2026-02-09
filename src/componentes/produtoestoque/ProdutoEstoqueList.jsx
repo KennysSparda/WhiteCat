@@ -100,7 +100,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   };
 
   return (
-    <div>
+    <div className="m-2">
       <h2 className="text-2xl font-bold mb-4">Produtos do Estoque</h2>
       <div className="mb-4 flex justify-between items-start">
         <input

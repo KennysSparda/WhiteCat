@@ -13,36 +13,37 @@ const Login = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError("");
 
     try {
-      console.log(
-        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/login`,
-      );
       const response = await fetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/login`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usuario: username, senha: password }),
         },
       );
 
       if (!response.ok) {
-        throw new Error("Usuário ou senha incorretos");
+        if (response.status === 401) {
+          throw new Error("Usuário ou senha incorretos");
+        }
+        throw new Error("Erro ao fazer login");
       }
 
       const data = await response.json();
-      setUserId(data.id); // Define o ID do usuário logado
-      setUserAccessLevel(data.nivelacesso); // Define o nível de acesso do usuário logado
 
-      // Redirecionar para o home após login bem-sucedido
+      localStorage.setItem("token", data.token);
+
+      setUserId(data.funcionario.id);
+      setUserAccessLevel(data.funcionario.nivelacesso);
+
       onSuccessLogin();
       onChangeComponent("home");
-    } catch (error) {
-      console.error("Erro ao fazer login:", error.message);
-      setError(error.message); // Exibir mensagem de erro
+    } catch (err) {
+      console.error("Erro ao fazer login:", err.message);
+      setError(err.message);
     }
   };
 

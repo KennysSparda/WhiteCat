@@ -224,7 +224,7 @@ const MovimentacoesList = () => {
   };
 
   return (
-    <div>
+    <div className="m-2">
       <h2 className="text-2xl font-bold mb-4">Lista de Movimentações</h2>
       <div className="flex justify-between items-center mb-4">
         <button
@@ -275,8 +275,8 @@ const MovimentacoesList = () => {
             <tr>
               <th className="border border-gray-300 px-4 py-2">ID</th>
               <th className="border border-gray-300 px-4 py-2">Data</th>
-              <th className="border border-gray-300 px-4 py-2">Produto</th>
               <th className="border border-gray-300 px-4 py-2">Tipo</th>
+              <th className="border border-gray-300 px-4 py-2">Produto</th>
               <th className="border border-gray-300 px-4 py-2">Quantidade</th>
               <th className="border border-gray-300 px-4 py-2">Estoque</th>
               <th className="border border-gray-300 px-4 py-2">Funcionário</th>
