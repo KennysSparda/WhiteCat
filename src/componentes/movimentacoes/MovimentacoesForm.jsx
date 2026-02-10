@@ -1,82 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import ProdutoDropdown from '../Dropdown/ProdutoDropdown';
-import EstoqueDropdown from '../Dropdown/EstoqueDropdown';
-import FuncionarioDropdown from '../Dropdown/FuncionarioDropdown';
+import React, { useState, useEffect } from "react";
+import ProdutoDropdown from "../Dropdown/ProdutoDropdown";
+import EstoqueDropdown from "../Dropdown/EstoqueDropdown";
+import FuncionarioDropdown from "../Dropdown/FuncionarioDropdown";
 
 const GetToday = () => {
   const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
   const year = today.getFullYear();
   const formattedDate = `${year}-${month}-${day}`;
 
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
   if (!dateRegex.test(formattedDate)) {
-    throw new Error('Data inválida');
+    throw new Error("Data inválida");
   }
 
   return formattedDate;
 };
 
-const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) => {
+const MovimentacoesForm = ({
+  product,
+  onSubmit,
+  onClose,
+  fetchMovimentacoes,
+}) => {
   const [data, setData] = useState(GetToday());
-  const [quantidade, setQuantidade] = useState('');
-  const [tipo, setTipo] = useState('entrada');
-  const [produtoID, setProdutoID] = useState('');
-  const [funcionarioID, setFuncionarioID] = useState('');
-  const [estoqueID, setEstoqueID] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [quantidade, setQuantidade] = useState("");
+  const [tipo, setTipo] = useState("entrada");
+  const [produtoID, setProdutoID] = useState("");
+  const [funcionarioID, setFuncionarioID] = useState("");
+  const [estoqueID, setEstoqueID] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (product) {
       setData(product.Data || GetToday());
-      setQuantidade(product.Quantidade || '');
-      setTipo(product.Tipo ? 'entrada' : 'saida');
-      setProdutoID(product.fk_Produto_ID || '');
-      setFuncionarioID(product.fk_Funcionario_ID || '');
-      setEstoqueID(product.fk_Estoque_ID || '');
+      setQuantidade(product.Quantidade || "");
+      setTipo(product.Tipo ? "entrada" : "saida");
+      setProdutoID(product.fk_Produto_ID || "");
+      setFuncionarioID(product.fk_Funcionario_ID || "");
+      setEstoqueID(product.fk_Estoque_ID || "");
     } else {
       setData(GetToday());
-      setQuantidade('');
-      setTipo('entrada');
-      setProdutoID('');
-      setFuncionarioID('');
-      setEstoqueID('');
+      setQuantidade("");
+      setTipo("entrada");
+      setProdutoID("");
+      setFuncionarioID("");
+      setEstoqueID("");
     }
   }, [product]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const movimentacaoData = {
       Data: data,
       Quantidade: parseInt(quantidade),
-      Tipo: tipo === 'entrada' ? 1 : 2,
+      Tipo: tipo === "entrada" ? 1 : 2,
       fk_Produto_ID: parseInt(produtoID),
       fk_Funcionario_ID: parseInt(funcionarioID),
       fk_Estoque_ID: parseInt(estoqueID),
     };
-  
+
     try {
       const response = await onSubmit(movimentacaoData);
-      
+
       // Verifica a resposta da API
       if (response && !response.success) {
-        if (response.message === 'Quantidade insuficiente no estoque.') {
-          setErrorMessage('Quantidade insuficiente no estoque.');
+        if (response.message === "Quantidade insuficiente no estoque.") {
+          setErrorMessage("Quantidade insuficiente no estoque.");
         } else {
-          setErrorMessage(response.message || 'Erro desconhecido.');
+          setErrorMessage(response.message || "Erro desconhecido.");
         }
       } else {
-        setErrorMessage('');
+        setErrorMessage("");
         onClose();
         fetchMovimentacoes();
       }
     } catch (error) {
-      setErrorMessage('Erro ao enviar os dados: ' + error.message);
+      setErrorMessage("Erro ao enviar os dados: " + error.message);
     }
   };
-  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -86,7 +90,9 @@ const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) =
             {errorMessage}
           </div>
         )}
-        <h2 className="text-2xl font-bold mb-4">{product ? 'Atualizar Movimentação' : 'Adicionar Movimentação'}</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {product ? "Atualizar Movimentação" : "Adicionar Movimentação"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Data</label>
@@ -105,8 +111,8 @@ const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) =
                 <input
                   type="radio"
                   value="entrada"
-                  checked={tipo === 'entrada'}
-                  onChange={() => setTipo('entrada')}
+                  checked={tipo === "entrada"}
+                  onChange={() => setTipo("entrada")}
                   className="mr-2"
                 />
                 Entrada
@@ -115,8 +121,8 @@ const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) =
                 <input
                   type="radio"
                   value="saida"
-                  checked={tipo === 'saida'}
-                  onChange={() => setTipo('saida')}
+                  checked={tipo === "saida"}
+                  onChange={() => setTipo("saida")}
                   className="mr-2"
                 />
                 Saída
@@ -166,7 +172,7 @@ const MovimentacoesForm = ({ product, onSubmit, onClose, fetchMovimentacoes }) =
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded"
             >
-              {product ? 'Atualizar' : 'Adicionar'}
+              {product ? "Atualizar" : "Adicionar"}
             </button>
           </div>
         </form>

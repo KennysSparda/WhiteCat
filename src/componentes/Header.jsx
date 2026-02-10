@@ -1,7 +1,7 @@
 // components/Header.js
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import ListaCompras from '../componentes/listadecompras/ListaDeCompras'; // Importe o componente ListaCompras
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import ListaCompras from "../componentes/listadecompras/ListaDeCompras"; // Importe o componente ListaCompras
 
 const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,10 +14,10 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
     };
 
     handleResize(); // Chama uma vez para definir o estado inicial
-    window.addEventListener('resize', handleResize); // Adiciona um listener de resize
+    window.addEventListener("resize", handleResize); // Adiciona um listener de resize
 
     return () => {
-      window.removeEventListener('resize', handleResize); // Remove o listener no cleanup
+      window.removeEventListener("resize", handleResize); // Remove o listener no cleanup
     };
   }, []);
 
@@ -35,8 +35,8 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
 
   const getLinkClass = (component) => {
     return currentComponent === component
-      ? 'primary-color cursor-pointer'
-      : 'text-white hover:text-gray-500 cursor-pointer';
+      ? "primary-color cursor-pointer"
+      : "text-white hover:text-gray-500 cursor-pointer";
   };
 
   const renderLoggedInButtons = () => {
@@ -45,7 +45,7 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
         return (
           <a
             className="text-white hover:text-gray-500 cursor-pointer"
-            onClick={() => onChangeComponent('login')}
+            onClick={() => onChangeComponent("login")}
           >
             Login
           </a>
@@ -53,13 +53,22 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
       case 1:
         return (
           <>
-            <span className={getLinkClass('produtos')} onClick={() => onChangeComponent('produtos')}>
+            <span
+              className={getLinkClass("produtos")}
+              onClick={() => onChangeComponent("produtos")}
+            >
               Materiais
             </span>
-            <span className={getLinkClass('estoques')} onClick={() => onChangeComponent('estoques')}>
+            <span
+              className={getLinkClass("estoques")}
+              onClick={() => onChangeComponent("estoques")}
+            >
               Estoques
             </span>
-            <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
+            <span
+              className={getLinkClass("movimentacoes")}
+              onClick={() => onChangeComponent("movimentacoes")}
+            >
               Movimentações
             </span>
             <button
@@ -68,9 +77,11 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
             >
               Lista de Compras
             </button>
-  
 
-            <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
+            <button
+              className="text-white hover:text-gray-500 cursor-pointer"
+              onClick={() => handleLogout()}
+            >
               Logout
             </button>
           </>
@@ -78,16 +89,28 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
       case 2:
         return (
           <>
-            <span className={getLinkClass('funcionarios')} onClick={() => onChangeComponent('funcionarios')}>
+            <span
+              className={getLinkClass("funcionarios")}
+              onClick={() => onChangeComponent("funcionarios")}
+            >
               Funcionários
             </span>
-            <span className={getLinkClass('produtos')} onClick={() => onChangeComponent('produtos')}>
+            <span
+              className={getLinkClass("produtos")}
+              onClick={() => onChangeComponent("produtos")}
+            >
               Materiais
             </span>
-            <span className={getLinkClass('estoques')} onClick={() => onChangeComponent('estoques')}>
+            <span
+              className={getLinkClass("estoques")}
+              onClick={() => onChangeComponent("estoques")}
+            >
               Estoques
             </span>
-            <span className={getLinkClass('movimentacoes')} onClick={() => onChangeComponent('movimentacoes')}>
+            <span
+              className={getLinkClass("movimentacoes")}
+              onClick={() => onChangeComponent("movimentacoes")}
+            >
               Movimentações
             </span>
             <button
@@ -96,7 +119,10 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
             >
               Lista de Compras
             </button>
-            <button className="text-white hover:text-gray-500 cursor-pointer" onClick={() => handleLogout()}>
+            <button
+              className="text-white hover:text-gray-500 cursor-pointer"
+              onClick={() => handleLogout()}
+            >
               Logout
             </button>
           </>
@@ -109,14 +135,18 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
   const handleLogout = () => {
     // Lógica para deslogar o usuário
     // Redirecionar para a página de login
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
     <header className="bg-gray-800 fixed top-0 left-0 w-full z-50 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-3xl a-space-demo-font text-white cursor-pointer" onClick={() => onChangeComponent('home')}>
-          <span className="primary-color">self</span><span className='hover-primary-color'>control</span>
+        <h1
+          className="text-3xl a-space-demo-font text-white cursor-pointer"
+          onClick={() => onChangeComponent("home")}
+        >
+          <span className="primary-color">self</span>
+          <span className="hover-primary-color">control</span>
         </h1>
         {isMobile ? (
           <div className="md:hidden">
@@ -152,7 +182,7 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
       {isMobile && (
         <motion.nav
           initial={{ height: 0 }}
-          animate={{ height: isOpen ? 'auto' : 0 }}
+          animate={{ height: isOpen ? "auto" : 0 }}
           transition={{ duration: 0.3 }}
           className="md:hidden overflow-hidden"
         >
@@ -163,9 +193,7 @@ const Header = ({ currentComponent, onChangeComponent, userAccessLevel }) => {
         </motion.nav>
       )}
       {/* ListaCompras - renderiza se showListaCompras for true */}
-      {showListaCompras && (
-        <ListaCompras onClose={handleCloseListaCompras} />
-      )}
+      {showListaCompras && <ListaCompras onClose={handleCloseListaCompras} />}
     </header>
   );
 };

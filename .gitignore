@@ -65,3 +65,4 @@ __next_image_optimizer/
 node_modules/.cache/
 
 .env
+ia/

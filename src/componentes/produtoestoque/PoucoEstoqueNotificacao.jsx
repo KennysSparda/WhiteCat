@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ListaDeCompras from '../listadecompras/ListaDeCompras';
+import React, { useState } from "react";
+import ListaDeCompras from "../listadecompras/ListaDeCompras";
 
 const PoucoEstoqueNotificacao = ({ products, onClose }) => {
   const [showListaDeCompras, setShowListaDeCompras] = useState(false);
@@ -43,9 +43,11 @@ const PoucoEstoqueNotificacao = ({ products, onClose }) => {
             ></path>
           </svg>
         </button>
-        <h2 className="text-xl font-semibold mb-4">Produtos com Estoque Baixo</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Produtos com Estoque Baixo
+        </h2>
         <ul className="divide-y divide-gray-200">
-          {products.map(produto => (
+          {products.map((produto) => (
             <li key={produto.produtoestoqueid} className="py-2">
               <div className="flex justify-between items-center">
                 <span>{produto.nomeproduto}</span>

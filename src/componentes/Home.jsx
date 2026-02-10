@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Footer from './footer/Footer'
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import Footer from "./footer/Footer";
 
 const Home = () => {
   // State para controlar seções visíveis
@@ -55,11 +55,7 @@ const Home = () => {
 
       {/* Banner image with blur effect */}
       <div className="relative z-1 flex justify-center mb-20">
-        <img
-          className="h-100 w-auto"
-          src="/img/Home-1.jpg"
-          alt="Banner"
-        />
+        <img className="h-100 w-auto" src="/img/Home-1.jpg" alt="Banner" />
       </div>
 
       {/* Main Content */}
@@ -77,21 +73,33 @@ const Home = () => {
               <span className="primary-color">como utilizar</span> o sistema:
             </h2>
             <p className="text-2xl font-bold mt-4 text-white text-blue">
-              Este sistema permite que você gerencie produtos e movimentações de estoque de forma eficiente:
+              Este sistema permite que você gerencie produtos e movimentações de
+              estoque de forma eficiente:
             </p>
             <div className="mt-6 text-left">
               <ul className="list-disc list-inside text-white space-y-4">
                 <li>
-                  <span className="font-bold primary-color">Funcionários:</span> Utilize a seção de Funcionários para cadastrar novos funcionários, definindo nome e cargo.
+                  <span className="font-bold primary-color">Funcionários:</span>{" "}
+                  Utilize a seção de Funcionários para cadastrar novos
+                  funcionários, definindo nome e cargo.
                 </li>
                 <li>
-                  <span className="font-bold primary-color">Produtos:</span> Utilize a seção de Produtos para cadastrar novos produtos, definindo nome, descrição e valor.
+                  <span className="font-bold primary-color">Produtos:</span>{" "}
+                  Utilize a seção de Produtos para cadastrar novos produtos,
+                  definindo nome, descrição e valor.
                 </li>
                 <li>
-                  <span className="font-bold primary-color">Estoques:</span> Utilize a seção de Estoques para cadastrar novos Estoques, definindo nome, descrição e local.
+                  <span className="font-bold primary-color">Estoques:</span>{" "}
+                  Utilize a seção de Estoques para cadastrar novos Estoques,
+                  definindo nome, descrição e local.
                 </li>
                 <li>
-                  <span className="font-bold primary-color">Movimentações:</span> Na seção de Movimentações, registre entradas e saídas de produtos nos Estoques. Inclua informações como data, quantidade de produtos e o funcionário responsável.
+                  <span className="font-bold primary-color">
+                    Movimentações:
+                  </span>{" "}
+                  Na seção de Movimentações, registre entradas e saídas de
+                  produtos nos Estoques. Inclua informações como data,
+                  quantidade de produtos e o funcionário responsável.
                 </li>
               </ul>
             </div>
@@ -117,22 +125,38 @@ const Home = () => {
           ref={ref3}
         >
           <div className="md:w-1/2 md:pr-8">
-            <h2 className="text-3xl font-extrabold text-white">O que acontece nos bastidores:</h2>
+            <h2 className="text-3xl font-extrabold text-white">
+              O que acontece nos bastidores:
+            </h2>
             <p className="text-lg text-gray-300 mt-4">
-              Por trás de cada operação, nosso sistema realiza uma série de processos automatizados que garantem a integridade e a eficiência dos dados:
+              Por trás de cada operação, nosso sistema realiza uma série de
+              processos automatizados que garantem a integridade e a eficiência
+              dos dados:
             </p>
             <ul className="list-disc list-inside text-gray-300 mt-6 space-y-4">
               <li>
-                <span className="font-bold text-white">Funcionários:</span> Ao registrar um novo funcionário, o sistema verifica se ele já está cadastrado no banco de dados e o adiciona se não estiver presente.
+                <span className="font-bold text-white">Funcionários:</span> Ao
+                registrar um novo funcionário, o sistema verifica se ele já está
+                cadastrado no banco de dados e o adiciona se não estiver
+                presente.
               </li>
               <li>
-                <span className="font-bold text-white">Produtos:</span> O cadastro de produtos passa por rigorosas validações para assegurar que cada item tenha um nome único e valores apropriados.
+                <span className="font-bold text-white">Produtos:</span> O
+                cadastro de produtos passa por rigorosas validações para
+                assegurar que cada item tenha um nome único e valores
+                apropriados.
               </li>
               <li>
-                <span className="font-bold text-white">Estoques:</span> A criação de estoques envolve a associação com localizações específicas, garantindo a unicidade e a organização de cada estoque.
+                <span className="font-bold text-white">Estoques:</span> A
+                criação de estoques envolve a associação com localizações
+                específicas, garantindo a unicidade e a organização de cada
+                estoque.
               </li>
               <li>
-                <span className="font-bold text-white">Movimentações:</span> As entradas e saídas de produtos são registradas com precisão, atualizando automaticamente os estoques correspondentes e gerenciando a disponibilidade de cada item.
+                <span className="font-bold text-white">Movimentações:</span> As
+                entradas e saídas de produtos são registradas com precisão,
+                atualizando automaticamente os estoques correspondentes e
+                gerenciando a disponibilidade de cada item.
               </li>
             </ul>
           </div>
