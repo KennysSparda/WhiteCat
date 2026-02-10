@@ -15,6 +15,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   const [produtos, setProdutos] = useState([]);
   const [totalQuantidade, setTotalQuantidade] = useState(0);
   const [quantidadeDiferentes, setQuantidadeDiferentes] = useState(0);
+  const [totalValorEstoque, setTotalValorEstoque] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -41,14 +42,18 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
       setProdutos(data);
 
       // Calcular total de quantidade de produtos e quantidade de produtos diferentes
-      let total = 0;
+      let totalQuantidade = 0;
       let diferentes = new Set();
+      let totalValorEstoque = 0;
+
       data.forEach((produto) => {
-        total += produto.quantidade;
+        totalQuantidade += produto.quantidade;
         diferentes.add(produto.nomeproduto);
+        totalValorEstoque += Number(produto.valorproduto) * Number(produto.quantidade);
       });
-      setTotalQuantidade(total);
+      setTotalQuantidade(totalQuantidade);
       setQuantidadeDiferentes(diferentes.size);
+      setTotalValorEstoque(totalValorEstoque);
 
       // Verificar se há produtos com estoque baixo
       const hasLowStock = data.some((produto) => produto.quantidade < 5);
@@ -85,6 +90,10 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
           ? a.quantidade - b.quantidade
           : b.quantidade - a.quantidade;
       });
+    } else if (sortBy === "totalvalorestoque") {
+      sortedProducts.sort((a, b) => {
+        return sortOrder === "asc" ? (a.valorproduto * a.quantidade) - (b.valorproduto * b.quantidade) : (b.valorproduto * b.quantidade) - (a.valorproduto * a.quantidade);
+      });
     }
     return sortedProducts;
   };
@@ -117,6 +126,9 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
         <p className="m-4">
           Produtos Diferentes: <strong>{quantidadeDiferentes}</strong>
         </p>
+        <p className="m-4">
+          Valor total em estoque: <strong>{totalValorEstoque.toFixed(2)}</strong>
+        </p>
 
         <div className="relative">
           <button
@@ -135,6 +147,15 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
             Quantidade{" "}
             {sortBy === "quantidade" && (
               <span>{sortOrder === "asc" ? "↓" : "↑"}</span>
+            )}
+          </button>
+          <button
+            className={`px-4 py-2 rounded m-2 w-36 ${sortBy === "totalvalorestoque" ? "bg-blue-600 text-white" : "bg-blue-500 text-white"}`}
+            onClick={() => handleSortChange("totalvalorestoque")}
+          >
+            Valor Estoque{" "}
+            {sortBy === "totalvalorestoque" && (
+              <span>{sortOrder === "asc" ? "↑" : "↓"}</span>
             )}
           </button>
         </div>
@@ -162,7 +183,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
                   Preço: <strong>R$ {produto.valorproduto}</strong>
                 </p>
                 <p className="text-gray-600">
-                  Total em estoque:{" "}
+                  Valor em estoque:{" "}
                   <strong>
                     R$ {(produto.quantidade * produto.valorproduto).toFixed(2)}
                   </strong>

@@ -57,15 +57,16 @@ const FuncionarioList = ({ onChangeComponent }) => {
     try {
       const response = await fetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/${funcionarioId}`,
-        {
-          method: "DELETE",
-        },
+        { method: "DELETE" },
       );
+
       if (!response.ok) {
         throw new Error("Failed to delete funcionario");
       }
-      await response.json(); // Assuming backend returns success message
-      setFuncionarios(funcionarios.filter((func) => func.id !== funcionarioId));
+
+      setFuncionarios((prev) =>
+        prev.filter((func) => func.id !== funcionarioId),
+      );
     } catch (error) {
       console.error("Error deleting funcionario:", error);
       alert("Error deleting funcionario: " + error.message);

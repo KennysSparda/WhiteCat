@@ -75,19 +75,16 @@ const MovimentacoesList = () => {
 
   const handleSubmit = async (movimentacaoData) => {
     try {
-      const url = currentMovimentacao
-        ? `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes/${currentMovimentacao.id}`
-        : `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`;
-
-      const method = currentMovimentacao ? "PUT" : "POST";
-
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(movimentacaoData),
         },
-        body: JSON.stringify(movimentacaoData),
-      });
+      );
 
       const result = await response.json();
 
