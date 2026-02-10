@@ -72,7 +72,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-bold mb-4">
-          {estoque ? "Update Stock" : "Add Stock"}
+          {estoque ? "Atualizar Estoque" : "Adicionar Estoque"}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
