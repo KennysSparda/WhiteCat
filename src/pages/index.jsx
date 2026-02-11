@@ -1,69 +1,102 @@
 // pages/index.jsx
-import { useState } from "react";
-import Header from "../componentes/Header";
-import Home from "../componentes/Home";
-import Login from "../componentes/Login";
-import ProdutoList from "../componentes/produto/ProdutoList";
-import FuncionarioList from "../componentes/funcionario/FuncionarioList";
-import EstoqueList from "../componentes/estoque/EstoqueList";
-import MovimentacoesList from "../componentes/movimentacoes/MovimentacoesList";
+import { useEffect, useState } from "react"
+import Header from "../componentes/Header"
+import Home from "../componentes/Home"
+import Login from "../componentes/Login"
+import ProdutoList from "../componentes/produto/ProdutoList"
+import FuncionarioList from "../componentes/funcionario/FuncionarioList"
+import EstoqueList from "../componentes/estoque/EstoqueList"
+import MovimentacoesList from "../componentes/movimentacoes/MovimentacoesList"
 
 const IndexPage = () => {
-  const [currentComponent, setCurrentComponent] = useState("home");
-  const [userId, setUserId] = useState(null); // ID do usuário logado
-  const [userAccessLevel, setUserAccessLevel] = useState(0); // Nível de acesso do usuário
+  const [currentComponent, setCurrentComponent] = useState("home")
+  const [userId, setUserId] = useState(null)
+  const [userAccessLevel, setUserAccessLevel] = useState(null) // null = desconhecido ainda
+  const [isAuthReady, setIsAuthReady] = useState(false)
 
-  const handleSuccessLogin = () => {
-    // Define o componente a ser renderizado após o login bem-sucedido
-    switch (userAccessLevel) {
-      case 0:
-        setCurrentComponent("login"); // Exemplo: pode redirecionar para um componente específico para nível 0
-        break;
-      case 1:
-        setCurrentComponent("produtos"); // Exemplo: pode redirecionar para um componente específico para nível 1
-        break;
-      case 2:
-        setCurrentComponent("funcionarios"); // Exemplo: pode redirecionar para um componente específico para nível 2
-        break;
-      default:
-        setCurrentComponent("home"); // Página inicial por padrão
-        break;
+  useEffect(() => {
+    // carrega sessão do localStorage
+    const token = localStorage.getItem("token")
+    const storedUserId = localStorage.getItem("userId")
+    const storedLevel = localStorage.getItem("userAccessLevel")
+
+    if (token && storedUserId && storedLevel) {
+      setUserId(Number(storedUserId))
+      setUserAccessLevel(Number(storedLevel))
+    } else {
+      setUserId(null)
+      setUserAccessLevel(0)
     }
-  };
+
+    setIsAuthReady(true)
+  }, [])
+
+  const handleChangeComponent = (component) => {
+    // bloqueia rotas privadas se não tiver login
+    const privateRoutes = ["produtos", "estoques", "funcionarios", "movimentacoes"]
+    const token = localStorage.getItem("token")
+
+    if (privateRoutes.includes(component) && !token) {
+      setCurrentComponent("login")
+      return
+    }
+
+    setCurrentComponent(component)
+  }
+
+  const handleSuccessLogin = ({ id, nivel, token }) => {
+    localStorage.setItem("token", token)
+    localStorage.setItem("userId", String(id))
+    localStorage.setItem("userAccessLevel", String(nivel))
+
+    setUserId(id)
+    setUserAccessLevel(nivel)
+
+    // redireciona baseado no nível (use o valor recebido, não o state)
+    if (nivel === 2) setCurrentComponent("funcionarios")
+    else if (nivel === 1) setCurrentComponent("produtos")
+    else setCurrentComponent("home")
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("userId")
+    localStorage.removeItem("userAccessLevel")
+
+    setUserId(null)
+    setUserAccessLevel(0)
+    setCurrentComponent("home")
+  }
 
   const renderComponent = () => {
     switch (currentComponent) {
       case "home":
-        return <Home />;
+        return <Home />
       case "login":
         return (
           <Login
-            setUserId={setUserId}
-            setUserAccessLevel={setUserAccessLevel}
             onSuccessLogin={handleSuccessLogin}
             onChangeComponent={handleChangeComponent}
           />
-        );
+        )
       case "funcionarios":
-        return <FuncionarioList />;
+        return <FuncionarioList />
       case "produtos":
-        return <ProdutoList />;
+        return <ProdutoList />
       case "estoques":
-        return <EstoqueList />;
+        return <EstoqueList />
       case "movimentacoes":
-        return <MovimentacoesList />;
+        return <MovimentacoesList />
       default:
-        return <Home />;
+        return <Home />
     }
-  };
+  }
 
-  const handleChangeComponent = (component) => {
-    setCurrentComponent(component);
-  };
+  const shouldFullWidth = currentComponent === "home" || currentComponent === "login"
 
-  // Determina se o componente deve ocupar a largura total ou ter margens
-  const shouldFullWidth =
-    currentComponent === "home" || currentComponent === "login";
+  if (!isAuthReady) {
+    return <div className="w-full h-screen bg-black" />
+  }
 
   return (
     <div>
@@ -71,18 +104,13 @@ const IndexPage = () => {
         currentComponent={currentComponent}
         onChangeComponent={handleChangeComponent}
         userAccessLevel={userAccessLevel}
+        onLogout={handleLogout}
       />
-      <div
-        className={
-          shouldFullWidth
-            ? "w-full h-screen"
-            : "flex-1 overflow-y-auto container mx-auto mt-20"
-        }
-      >
+      <div className={shouldFullWidth ? "w-full h-screen" : "flex-1 overflow-y-auto container mx-auto mt-20"}>
         {renderComponent()}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage

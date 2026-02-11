@@ -16,13 +16,13 @@ const Home = () => {
 
   // Configuração do Intersection Observer para cada seção
   const { ref: ref1, inView: inView1 } = useInView({
-    threshold: 0.5, // Quando 50% do elemento está visível
+    threshold: 0.3, // Quando 30% do elemento está visível
   });
   const { ref: ref2, inView: inView2 } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
   const { ref: ref3, inView: inView3 } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
 
   // Efeito para atualizar estado quando a seção está visível
@@ -41,7 +41,7 @@ const Home = () => {
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={section1Visible ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.4 }}
         className="relative text-center py-20 z-20"
         ref={ref1}
       >
@@ -64,7 +64,7 @@ const Home = () => {
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={section2Visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
           className="relative mt-8 md:mt-12"
           ref={ref2}
         >
@@ -107,7 +107,7 @@ const Home = () => {
           <motion.img
             initial={{ opacity: 0, y: 50 }}
             animate={section2Visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
             className="top-0 left-0 w-full h-full blur-sm"
             src="/img/text-logo.png"
             alt="Background"
