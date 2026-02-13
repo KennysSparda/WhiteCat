@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const ProdutoDropdown = ({ onSelectProduto, selectedProdutoID }) => {
   const [produtos, setProdutos] = useState([]);
@@ -9,7 +10,7 @@ const ProdutoDropdown = ({ onSelectProduto, selectedProdutoID }) => {
 
   const fetchProdutos = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto`,
       );
       if (!response.ok) {

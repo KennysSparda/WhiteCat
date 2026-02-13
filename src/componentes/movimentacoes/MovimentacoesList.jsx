@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MovimentacoesForm from "./MovimentacoesForm";
+import { apiFetch } from "../../utils/apiFetch";
+import { useMovimentacoesFilters } from "../../context/MovimentacoesFiltersContext";
 
 const SkeletonRow = () => (
   <tr className="animate-pulse">
@@ -26,13 +28,24 @@ const MovimentacoesList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentMovimentacao, setCurrentMovimentacao] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [filtroGeral, setFiltroGeral] = useState("");
-  const [dataInicial, setDataInicial] = useState("");
-  const [dataFinal, setDataFinal] = useState("");
+  const {
+    filtroGeral,
+    setFiltroGeral,
+    dataInicial,
+    setDataInicial,
+    dataFinal,
+    setDataFinal,
+    currentPage,
+    setCurrentPage,
+    sortKey,
+    sortDir,
+    setSort,
+    resetFilters,
+  } = useMovimentacoesFilters();
 
   useEffect(() => {
     fetchMovimentacoes();
@@ -53,7 +66,7 @@ const MovimentacoesList = () => {
 
   const fetchMovimentacoes = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`,
       );
       if (!response.ok) {
@@ -75,7 +88,7 @@ const MovimentacoesList = () => {
 
   const handleSubmit = async (movimentacaoData) => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/movimentacoes`,
         {
           method: "POST",
@@ -156,6 +169,34 @@ const MovimentacoesList = () => {
     setDataFinal(event.target.value);
   };
 
+  function sortRows(rows, sortKey, sortDir) {
+    if (!sortKey) return rows;
+
+    const dir = sortDir === "asc" ? 1 : -1;
+
+    return [...rows].sort((a, b) => {
+      const av = a?.[sortKey];
+      const bv = b?.[sortKey];
+
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+
+      if (sortKey === "data") {
+        const ad = new Date(av).getTime();
+        const bd = new Date(bv).getTime();
+        return (ad - bd) * dir;
+      }
+
+      if (typeof av === "number" && typeof bv === "number")
+        return (av - bv) * dir;
+
+      const as = String(av).toLowerCase();
+      const bs = String(bv).toLowerCase();
+      return as.localeCompare(bs) * dir;
+    });
+  }
+
   const filterMovimentacoes = () => {
     return movimentacoes.filter((movimentacao) => {
       const movimentacaoDate = new Date(movimentacao.data);
@@ -184,20 +225,19 @@ const MovimentacoesList = () => {
     });
   };
 
-  useEffect(() => {
-    const today = new Date();
-    today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); // Ajusta para o fuso horário local
-    const formattedDate = today.toISOString().substr(0, 10); // Formato YYYY-MM-DD
-    setDataInicial(formattedDate);
-    setDataFinal(formattedDate);
-  }, []);
-
   const filteredMovimentacoes = filterMovimentacoes();
+  const sortedMovimentacoes = sortRows(filteredMovimentacoes, sortKey, sortDir);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredMovimentacoes.slice(
+  const currentItems = sortedMovimentacoes.slice(
     indexOfFirstItem,
     indexOfLastItem,
+  );
+
+  const maxQtd = Math.max(
+    1,
+    ...currentItems.map((m) => Math.abs(Number(m.quantidade || 0))),
   );
 
   const nextPage = () => {
@@ -218,6 +258,41 @@ const MovimentacoesList = () => {
 
   const lastPage = () => {
     setCurrentPage(totalPages);
+  };
+
+  const columns = [
+    { key: "id", label: "ID", type: "number" },
+    { key: "data", label: "Data", type: "date" },
+    { key: "tipo", label: "Tipo", type: "number" },
+    { key: "nomeproduto", label: "Produto", type: "string" },
+    { key: "quantidade", label: "Quantidade", type: "number" },
+    { key: "nomeestoque", label: "Estoque", type: "string" },
+    { key: "nomefuncionario", label: "Funcionário", type: "string" },
+  ];
+
+  const palette = [
+    "bg-blue-500/20",
+    "bg-green-500/20",
+    "bg-purple-500/20",
+    "bg-orange-500/20",
+    "bg-pink-500/20",
+    "bg-teal-500/20",
+  ];
+
+  const getRowFillClass = (id) =>
+    palette[Math.abs(Number(id || 0)) % palette.length];
+
+  const normalize = (v, type) => {
+    if (type === "number") return Number(v ?? 0);
+    if (type === "date") return new Date(v).getTime() || 0;
+    return String(v ?? "").toLowerCase();
+  };
+
+  const SortIcon = ({ active, dir }) => {
+    if (!active) return <span className="ml-2 text-gray-300">↕</span>;
+    return (
+      <span className="ml-2 text-gray-700">{dir === "asc" ? "↑" : "↓"}</span>
+    );
   };
 
   return (
@@ -263,6 +338,12 @@ const MovimentacoesList = () => {
               onChange={handleDataFinalChange}
               className="border border-gray-300 px-2 py-1 rounded"
             />
+            <button
+              className="ml-3 bg-gray-200 text-gray-800 px-3 py-2 rounded"
+              onClick={resetFilters}
+            >
+              Limpar filtros
+            </button>
           </div>
         </div>
       </div>
@@ -270,15 +351,21 @@ const MovimentacoesList = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr>
-              <th className="border border-gray-300 px-4 py-2">ID</th>
-              <th className="border border-gray-300 px-4 py-2">Data</th>
-              <th className="border border-gray-300 px-4 py-2">Tipo</th>
-              <th className="border border-gray-300 px-4 py-2">Produto</th>
-              <th className="border border-gray-300 px-4 py-2">Quantidade</th>
-              <th className="border border-gray-300 px-4 py-2">Estoque</th>
-              <th className="border border-gray-300 px-4 py-2">Funcionário</th>
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className="border border-gray-300 px-4 py-2 select-none cursor-pointer hover:bg-gray-50"
+                  onClick={() => setSort(col.key)}
+                >
+                  <div className="flex items-center justify-center">
+                    <span>{col.label}</span>
+                    <SortIcon active={sortKey === col.key} dir={sortDir} />
+                  </div>
+                </th>
+              ))}
             </tr>
           </thead>
+
           <tbody>
             {isLoading ? (
               <MovimentacoesSkeleton rowCount={8} />
@@ -299,9 +386,20 @@ const MovimentacoesList = () => {
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     {movimentacao.nomeproduto}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2 text-center">
-                    {movimentacao.quantidade}
+                  <td className="border border-gray-300 px-4 py-2">
+                    <div className="relative h-8 rounded overflow-hidden bg-gray-100">
+                      <div
+                        className={`absolute inset-y-0 left-0 ${getRowFillClass(movimentacao.id)}`}
+                        style={{
+                          width: `${Math.min(100, (Math.abs(Number(movimentacao.quantidade || 0)) / maxQtd) * 100)}%`,
+                        }}
+                      />
+                      <div className="relative z-10 h-8 flex items-center justify-center font-semibold">
+                        {movimentacao.quantidade}
+                      </div>
+                    </div>
                   </td>
+
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     {movimentacao.nomeestoque}
                   </td>

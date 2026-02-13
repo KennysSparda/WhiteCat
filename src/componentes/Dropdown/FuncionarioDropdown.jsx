@@ -1,5 +1,6 @@
 // FuncionariosDropdown.jsx
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const FuncionariosDropdown = ({
   onSelectFuncionario,
@@ -13,7 +14,7 @@ const FuncionariosDropdown = ({
 
   const fetchFuncionarios = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario`,
       );
       if (!response.ok) {

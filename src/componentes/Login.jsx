@@ -1,14 +1,14 @@
 // components/Login.js
-import { useState } from "react"
+import { useState } from "react";
 
 const Login = ({ onSuccessLogin, onChangeComponent }) => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    setError("")
+    event.preventDefault();
+    setError("");
 
     try {
       const response = await fetch(
@@ -17,26 +17,27 @@ const Login = ({ onSuccessLogin, onChangeComponent }) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usuario: username, senha: password }),
-        }
-      )
+        },
+      );
 
       if (!response.ok) {
-        if (response.status === 401) throw new Error("Usuário ou senha incorretos")
-        throw new Error("Erro ao fazer login")
+        if (response.status === 401)
+          throw new Error("Usuário ou senha incorretos");
+        throw new Error("Erro ao fazer login");
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
       onSuccessLogin({
         id: data.funcionario.id,
         nivel: data.funcionario.nivelacesso,
         token: data.token,
-      })
+      });
     } catch (err) {
-      console.error("Erro ao fazer login:", err.message)
-      setError(err.message)
+      console.error("Erro ao fazer login:", err.message);
+      setError(err.message);
     }
-  }
+  };
 
   return (
     <div className="relative h-screen overflow-hidden bg-black">
@@ -48,7 +49,10 @@ const Login = ({ onSuccessLogin, onChangeComponent }) => {
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
               Username
             </label>
             <input
@@ -62,7 +66,10 @@ const Login = ({ onSuccessLogin, onChangeComponent }) => {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -75,17 +82,24 @@ const Login = ({ onSuccessLogin, onChangeComponent }) => {
             />
           </div>
 
-          {error && <div className="bg-red-200 text-red-700 p-2 mb-4 rounded-md">{error}</div>}
+          {error && (
+            <div className="bg-red-200 text-red-700 p-2 mb-4 rounded-md">
+              {error}
+            </div>
+          )}
 
           <div className="flex justify-center">
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+            >
               Login
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

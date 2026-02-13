@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ProductForm from "./ProdutoForm";
+import { apiFetch } from "../../utils/apiFetch";
+import { useConfirm } from "../confirm/ConfirmProvider";
 
 const ProductSkeleton = () => {
   return (
@@ -19,6 +21,8 @@ const ProductSkeleton = () => {
 };
 
 const ProductList = () => {
+  const confirm = useConfirm();
+
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -31,7 +35,7 @@ const ProductList = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto`,
       );
       if (!response.ok) {
@@ -56,21 +60,28 @@ const ProductList = () => {
     setIsFormVisible(true);
   };
 
-  const deleteProduct = async (productId) => {
-    try {
-      const response = await fetch(
-        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto/${productId}`,
-        {
-          method: "DELETE",
-        },
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete product");
-      }
-      setProducts(products.filter((product) => product.id !== productId));
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
+  const deleteProduto = async (produto) => {
+    await confirm({
+      title: "Excluir produto",
+      message: `Tem certeza que deseja excluir "${produto.nome}"? Essa ação não pode ser desfeita.`,
+      confirmText: "Excluir",
+      cancelText: "Cancelar",
+      variant: "danger",
+      onConfirm: async () => {
+        const response = await apiFetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto/${produto.id}`,
+          {
+            method: "DELETE",
+          },
+        );
+
+        if (!(response.status === 204 || response.ok)) {
+          throw new Error("Falha ao excluir produto");
+        }
+
+        setProducts(products.filter((p) => p.id !== produto.id));
+      },
+    });
   };
 
   const filteredProducts = products.filter(
@@ -110,14 +121,19 @@ const ProductList = () => {
               >
                 <div className="flex-grow">
                   <h3 className="text-lg font-semibold mb-2">{product.nome}</h3>
-                  {product.descricao && (
+                  {/* {product.descricao && (
                     <p className="text-gray-600 overflow-hidden overflow-ellipsis h-5">
                       {product.descricao}
                     </p>
-                  )}
-                  <p className="text-gray-700 mt-2">
-                    Valor: R$ {product.valor}
-                  </p>
+                  )} */}
+                  <a
+                    target="_blank"
+                    href={product.descricao}
+                    className="text-gray-600 hover:underline whitespace-normal break-words line-clamp-2"
+                    title={product.descricao}
+                  >
+                    Link
+                  </a>
                 </div>
                 <div className="w-8 flex flex-col space-y-2 ml-4">
                   <button
@@ -149,7 +165,7 @@ const ProductList = () => {
                   <button
                     title="Remover"
                     className="bg-transparent hover:bg-red-500 text-red-900 hover:text-white w-8 rounded"
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={() => deleteProduto(product)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

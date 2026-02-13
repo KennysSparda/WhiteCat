@@ -1,5 +1,6 @@
 // EstoqueDropdown.jsx (implementação semelhante ao FuncionarioDropdown)
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const EstoqueDropdown = ({ onSelectEstoque, selectedEstoqueID }) => {
   const [estoques, setEstoques] = useState([]);
@@ -10,7 +11,7 @@ const EstoqueDropdown = ({ onSelectEstoque, selectedEstoqueID }) => {
 
   const fetchEstoques = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque`,
       );
       if (!response.ok) {

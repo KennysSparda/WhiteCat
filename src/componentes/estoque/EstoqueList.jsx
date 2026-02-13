@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import EstoqueForm from "./EstoqueForm";
 import ProdutoEstoqueList from "../produtoestoque/ProdutoEstoqueList";
+import { apiFetch } from "../../utils/apiFetch";
+import { useConfirm } from "../confirm/ConfirmProvider";
 
 const EstoqueSkeleton = () => {
   return (
@@ -17,6 +19,8 @@ const EstoqueSkeleton = () => {
 };
 
 const EstoquesList = () => {
+  const confirm = useConfirm();
+
   const [estoques, setEstoques] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentEstoque, setCurrentEstoque] = useState(null);
@@ -30,7 +34,7 @@ const EstoquesList = () => {
 
   const fetchEstoques = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque`,
       );
       if (!response.ok) {
@@ -50,23 +54,30 @@ const EstoquesList = () => {
     setIsFormVisible(true);
   };
 
-  const deleteEstoque = async (estoqueId) => {
-    try {
-      const response = await fetch(
-        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque/${estoqueId}`,
-        {
-          method: "DELETE",
-        },
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete estoque");
-      }
-      setEstoques((prevEstoques) =>
-        prevEstoques.filter((e) => e.id !== estoqueId),
-      );
-    } catch (error) {
-      console.error("Error deleting estoque:", error);
-    }
+  const deleteEstoque = async (estoque) => {
+    await confirm({
+      title: "Excluir estoque",
+      message: `Tem certeza que deseja excluir "${estoque.nome}"? Essa ação não pode ser desfeita.`,
+      confirmText: "Excluir",
+      cancelText: "Cancelar",
+      variant: "danger",
+      onConfirm: async () => {
+        const response = await apiFetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque/${estoque.id}`,
+          {
+            method: "DELETE",
+          },
+        );
+
+        if (!(response.status === 204 || response.ok)) {
+          throw new Error("Falha ao excluir estoque");
+        }
+
+        setEstoques((prevEstoques) =>
+          prevEstoques.filter((e) => e.id !== estoque.id),
+        );
+      },
+    });
   };
 
   const addEstoque = () => {
@@ -163,7 +174,7 @@ const EstoquesList = () => {
                       <button
                         title="Remover"
                         className="bg-transparent hover:bg-red-500 text-red-900 hover:text-white w-8 rounded"
-                        onClick={() => deleteEstoque(estoque.id)}
+                        onClick={() => deleteEstoque(estoque)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

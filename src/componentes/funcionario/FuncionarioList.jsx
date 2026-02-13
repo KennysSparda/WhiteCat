@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FuncionarioForm from "./FuncionarioForm";
+import { apiFetch } from "../../utils/apiFetch";
+import { useConfirm } from "../confirm/ConfirmProvider";
 
 const FuncionarioSkeleton = () => {
   return (
@@ -16,6 +18,8 @@ const FuncionarioSkeleton = () => {
 };
 
 const FuncionarioList = ({ onChangeComponent }) => {
+  const confirm = useConfirm();
+
   const [funcionarios, setFuncionarios] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +32,11 @@ const FuncionarioList = ({ onChangeComponent }) => {
 
   const fetchFuncionarios = async () => {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario`,
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch funcionarios");
+        throw new Error("Falha ao buscar funcionários");
       }
       const data = await response.json();
       setFuncionarios(data);
@@ -53,31 +57,33 @@ const FuncionarioList = ({ onChangeComponent }) => {
     setIsFormVisible(true);
   };
 
-  const deleteFuncionario = async (funcionarioId) => {
-    try {
-      const response = await fetch(
-        `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/${funcionarioId}`,
-        { method: "DELETE" },
-      );
+  const deleteFuncionario = async (funcionario) => {
+    await confirm({
+      title: "Excluir funcionário",
+      message: `Tem certeza que deseja excluir "${funcionario.nome}"? Essa ação não pode ser desfeita.`,
+      confirmText: "Excluir",
+      cancelText: "Cancelar",
+      variant: "danger",
+      onConfirm: async () => {
+        const response = await apiFetch(
+          `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/${funcionario.id}`,
+          { method: "DELETE" },
+        );
 
-      if (!response.ok) {
-        throw new Error("Failed to delete funcionario");
-      }
+        if (!(response.status === 204 || response.ok)) {
+          throw new Error("Falha ao excluir funcionário");
+        }
 
-      setFuncionarios((prev) =>
-        prev.filter((func) => func.id !== funcionarioId),
-      );
-    } catch (error) {
-      console.error("Error deleting funcionario:", error);
-      alert("Error deleting funcionario: " + error.message);
-    }
+        setFuncionarios((prev) => prev.filter((f) => f.id !== funcionario.id));
+      },
+    });
   };
 
   const filteredfuncionarios = funcionarios.filter(
     (funcionario) =>
       funcionario.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (funcionario.descricao &&
-        funcionario.descricao.toLowerCase().includes(searchTerm.toLowerCase())),
+      (funcionario.cargo &&
+        funcionario.cargo.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   return (
@@ -98,6 +104,7 @@ const FuncionarioList = ({ onChangeComponent }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {isLoading
           ? Array.from({ length: 6 }).map((_, index) => (
@@ -106,7 +113,7 @@ const FuncionarioList = ({ onChangeComponent }) => {
           : filteredfuncionarios.map((funcionario) => (
               <div
                 key={funcionario.id}
-                className="border-2 border-black  p-4 rounded shadow-md flex justify-between items-start"
+                className="border-2 border-black p-4 rounded shadow-md flex justify-between items-start"
               >
                 <div className="flex-grow">
                   <h3 className="text-lg font-semibold mb-2">
@@ -114,14 +121,12 @@ const FuncionarioList = ({ onChangeComponent }) => {
                   </h3>
                   <p className="text-gray-600">Cargo: {funcionario.cargo}</p>
                 </div>
+
                 <div className="w-8 flex flex-col space-y-2 ml-4">
                   <button
                     title="Atualizar"
                     className="bg-transparent hover:bg-blue-500 text-blue-900 hover:text-white w-8 rounded"
-                    onClick={() => {
-                      setCurrentFuncionario(funcionario);
-                      setIsFormVisible(true);
-                    }}
+                    onClick={() => updateFuncionario(funcionario)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -144,10 +149,11 @@ const FuncionarioList = ({ onChangeComponent }) => {
                       />
                     </svg>
                   </button>
+
                   <button
                     title="Excluir"
                     className="bg-transparent hover:bg-red-500 text-red-900 hover:text-white w-8 rounded"
-                    onClick={() => deleteFuncionario(funcionario.id)}
+                    onClick={() => deleteFuncionario(funcionario)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -168,6 +174,7 @@ const FuncionarioList = ({ onChangeComponent }) => {
               </div>
             ))}
       </div>
+
       {isFormVisible && (
         <FuncionarioForm
           funcionario={currentFuncionario}

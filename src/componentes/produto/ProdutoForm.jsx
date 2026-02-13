@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const ProductForm = ({ product, fetchProducts, onClose }) => {
   const [nome, setNome] = useState("");
@@ -30,7 +31,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
       let response;
       if (product) {
         // Atualizando produto existente
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto/${product.id}`,
           {
             method: "PUT",
@@ -42,7 +43,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
         );
       } else {
         // Adicionando novo produto
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto`,
           {
             method: "POST",
@@ -98,7 +99,7 @@ const ProductForm = ({ product, fetchProducts, onClose }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Descrição</label>
+            <label className="block text-gray-700">Link</label>
             <textarea
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}

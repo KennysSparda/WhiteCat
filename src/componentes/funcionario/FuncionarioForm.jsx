@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
   const [nome, setNome] = useState("");
@@ -39,7 +40,7 @@ const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
     try {
       let response;
       if (funcionario) {
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario/${funcionario.id}`,
           {
             method: "PUT",
@@ -50,7 +51,7 @@ const FuncionarioForm = ({ funcionario, fetchFuncionarios, onClose }) => {
           },
         );
       } else {
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/funcionario`,
           {
             method: "POST",

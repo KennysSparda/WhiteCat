@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { apiFetch } from "../../utils/apiFetch";
 
 const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
   const [nome, setNome] = useState("");
@@ -30,7 +31,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
       let response;
       if (estoque) {
         // Updating existing stock
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque/${estoque.id}`,
           {
             method: "PUT",
@@ -42,7 +43,7 @@ const EstoqueForm = ({ estoque, onSubmit, onClose }) => {
         );
       } else {
         // Adding new stock
-        response = await fetch(
+        response = await apiFetch(
           `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/estoque`,
           {
             method: "POST",

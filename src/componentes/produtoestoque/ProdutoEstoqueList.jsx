@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PoucoEstoqueNotificacao from "./PoucoEstoqueNotificacao";
+import { apiFetch } from "../../utils/apiFetch";
 
 const ProdutoEstoqueSkeleton = () => {
   return (
@@ -32,7 +33,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
   const fetchProdutosEstoque = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
+      const response = await apiFetch(
         `http://${process.env.NEXT_PUBLIC_URL}:${process.env.NEXT_PUBLIC_PORT}/produto-estoque/${estoqueId}`,
       );
       if (!response.ok) {
@@ -49,7 +50,8 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
       data.forEach((produto) => {
         totalQuantidade += produto.quantidade;
         diferentes.add(produto.nomeproduto);
-        totalValorEstoque += Number(produto.valorproduto) * Number(produto.quantidade);
+        totalValorEstoque +=
+          Number(produto.valorproduto) * Number(produto.quantidade);
       });
       setTotalQuantidade(totalQuantidade);
       setQuantidadeDiferentes(diferentes.size);
@@ -92,7 +94,9 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
       });
     } else if (sortBy === "totalvalorestoque") {
       sortedProducts.sort((a, b) => {
-        return sortOrder === "asc" ? (a.valorproduto * a.quantidade) - (b.valorproduto * b.quantidade) : (b.valorproduto * b.quantidade) - (a.valorproduto * a.quantidade);
+        return sortOrder === "asc"
+          ? a.valorproduto * a.quantidade - b.valorproduto * b.quantidade
+          : b.valorproduto * b.quantidade - a.valorproduto * a.quantidade;
       });
     }
     return sortedProducts;
@@ -127,7 +131,8 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
           Produtos Diferentes: <strong>{quantidadeDiferentes}</strong>
         </p>
         <p className="m-4">
-          Valor total em estoque: <strong>{totalValorEstoque.toFixed(2)}</strong>
+          Valor total em estoque:{" "}
+          <strong>{totalValorEstoque.toFixed(2)}</strong>
         </p>
 
         <div className="relative">
@@ -155,7 +160,7 @@ const ProdutoEstoqueList = ({ estoqueId }) => {
           >
             Valor Estoque{" "}
             {sortBy === "totalvalorestoque" && (
-              <span>{sortOrder === "asc" ? "↑" : "↓"}</span>
+              <span>{sortOrder === "asc" ? "↓" : "↑"}</span>
             )}
           </button>
         </div>
